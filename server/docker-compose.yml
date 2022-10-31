@@ -1,0 +1,54 @@
+services: 
+  node:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: twitler-server
+    restart: unless-stopped
+    networks:
+      - shared_network
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:${MYSQL_PORT}/mysql_db?schema=public&connect_timeout=300
+    depends_on:
+      - mysql
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+
+  mysql:
+    build:
+      context: .
+      dockerfile: ./db/Dockerfile
+    container_name: twitler-mysql
+    restart: unless-stopped
+    networks:
+      - shared_network
+    ports:
+      - ${MYSQL_PORT}:${MYSQL_PORT}
+    environment:
+      - MYSQL_DB=${MYSQL_DB}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    expose:
+      - ${MYSQL_PORT}
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: twitler-adminer
+    restart: unless-stopped
+    ports:
+      - ${ADMINER_HOST_PORT}:${ADMINER_PORT}
+    networks:
+      - shared_network
+    depends_on:
+      - mysql
+volumes:
+  mysql-data:
+
+networks:
+  shared_network:
