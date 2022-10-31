@@ -8,10 +8,10 @@ COPY package-lock.json .
 
 RUN npm install
 
-RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
-
 COPY . .
 
-EXPOSE 3000
+EXPOSE ${PORT}
 
-CMD [ "npm", "run", "start:docker" ]
+RUN npx prisma generate
+
+CMD [ "npm", "run", "start:dev" ]

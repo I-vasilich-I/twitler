@@ -1,0 +1,13 @@
+{
+  "name": "twitler",
+  "version": "1.0.0",
+  "description": "Backend for Twitler(minimalist clone of Twitter)",
+  "main": "index.js",
+  "scripts": {
+    "docker": "docker-compose --env-file ./server/.env up",
+    "docker:build": "docker-compose --env-file ./server/.env build --no-cache",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oleg Vaskevich",
+  "license": "ISC"
+}
