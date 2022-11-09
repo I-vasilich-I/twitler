@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -14,9 +15,10 @@ const corsOptions = {
 }
 
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use('/api', router);
+app.use('/public', express.static("public"))
 
 const PORT = process.env.PORT || 5000;
 
