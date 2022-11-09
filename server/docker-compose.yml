@@ -37,16 +37,17 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
 
-  adminer:
-    image: adminer
-    container_name: twitler-adminer
-    restart: unless-stopped
-    ports:
-      - ${ADMINER_HOST_PORT}:${ADMINER_PORT}
-    networks:
-      - shared_network
-    depends_on:
-      - mysql
+  # Turns out prisma has it's own studio to manage data in db, so I don't need adminer so far
+  # adminer:
+  #   image: adminer
+  #   container_name: twitler-adminer
+  #   restart: unless-stopped
+  #   ports:
+  #     - ${ADMINER_HOST_PORT}:${ADMINER_PORT}
+  #   networks:
+  #     - shared_network
+  #   depends_on:
+  #     - mysql
 volumes:
   mysql-data:
 

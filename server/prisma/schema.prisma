@@ -14,9 +14,12 @@ model User {
   id  Int @id @default(autoincrement())
   email String @unique
   password String
-  userName String
-  avatar String
-  bio String
+  username String
+  activationLink String
+  isActivated Boolean @default(false)
+  refreshToken String? @db.VarChar(300)
+  avatar String? 
+  bio String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
