@@ -1,5 +1,6 @@
 import { BadRequestException } from "../exceptions/index.js";
 import prisma from "../prisma/prisma.service.js";
+import UserDto from "../user/dto/user.dto.js";
 
 class TweetService {
   async create({ text, isPublic }, userId, imageData) {
@@ -149,6 +150,53 @@ class TweetService {
         timestamp: 'desc'
       } 
     })
+    return tweets;
+  }
+
+  async getAllWithRepliesByUserId(userId) {
+    const tweets = await prisma.tweet.findMany({
+      where: {
+        comments: {
+          some: {
+            userId
+          }
+        }
+      },
+      include: {
+        comments: {
+          include: {
+            User: true,
+          }
+        }
+      }
+    })
+
+    return tweets.map(tweet => {
+      tweet.comments = tweet.comments.map(comment => {
+        comment.User = new UserDto(comment.User)
+        return comment;
+      })
+
+      return tweet;
+    });
+  }
+
+  async getAllFollowingTweets(userId) {
+    const tweets = await prisma.tweet.findMany({
+      where: {
+        User: {
+          followers: {
+            some: {
+              followerUserId: userId
+            }
+          }
+        }
+      }, 
+      orderBy: {
+        timestamp: 'desc'
+      }
+    })
+
     return tweets;
   }
 }

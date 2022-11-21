@@ -36,6 +36,8 @@ const {
   GET_TWEETS_BY_USER,
   GET_TWEETS_WITH_LIKES_BY_USER,
   GET_TWEETS_WITH_MEDIA_BY_USER,
+  GET_TWEETS_WITH_REPLIES_BY_USER,
+  GET_FOLLOWING_TWEETS,
   CREATE_COMMENT,
   LIKE_COMMENT,
   DELETE_COMMENT,
@@ -89,6 +91,8 @@ router.put(REACT_ON_TWEET, authMidleware, tweetController.react);
 router.get(GET_TWEETS_BY_USER, authMidleware, tweetController.getAllByUserId);
 router.get(GET_TWEETS_WITH_LIKES_BY_USER, authMidleware, tweetController.getAllWithLikesByUserId)
 router.get(GET_TWEETS_WITH_MEDIA_BY_USER, authMidleware, tweetController.getAllWithMediaByUserId)
+router.get(GET_TWEETS_WITH_REPLIES_BY_USER, authMidleware, tweetController.getAllWithRepliesByUserId)
+router.get(GET_FOLLOWING_TWEETS, authMidleware, tweetController.getAllFollowingTweets)
 //---------------------------------------------------------------------
 
 //----COMMENTS ENDPOINTS-----------------------------------------------
