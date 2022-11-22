@@ -15,6 +15,7 @@ class MailerService {
 
   async sendActivationMail(to, name, link) {
     try {
+      await this.transporter.verify();
       await this.transporter.sendMail({
         from: process.env.MAIL_FROM,
         to,
