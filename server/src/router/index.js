@@ -6,6 +6,7 @@ import authMidleware from "../midlewares/auth.midleware.js";
 import userController from "../user/user.controller.js";
 import tweetController from '../tweet/tweet.controller.js';
 import { ROUTES } from "../constants.js";
+import commentController from "../comment/comment.controller.js";
 
 const storage = multer.diskStorage({
   destination: 'public/',
@@ -34,6 +35,9 @@ const {
   GET_TWEETS_BY_USER,
   GET_TWEETS_WITH_LIKES_BY_USER,
   GET_TWEETS_WITH_MEDIA_BY_USER,
+  CREATE_COMMENT,
+  LIKE_COMMENT,
+  DELETE_COMMENT,
 } = ROUTES;
 
 const router = new Router();
@@ -77,10 +81,16 @@ router.delete(DELETE_USER, authMidleware, userController.delete);
 //----TWEETS ENDPOINTS-------------------------------------------------
 router.post(CREATE_TWEET, authMidleware, upload.single('image'), tweetController.create);
 router.delete(DELETE_TWEET, authMidleware, tweetController.delete);
-router.get(REACT_ON_TWEET, authMidleware, tweetController.react);
+router.put(REACT_ON_TWEET, authMidleware, tweetController.react);
 router.get(GET_TWEETS_BY_USER, authMidleware, tweetController.getAllByUserId);
 router.get(GET_TWEETS_WITH_LIKES_BY_USER, authMidleware, tweetController.getAllWithLikesByUserId)
 router.get(GET_TWEETS_WITH_MEDIA_BY_USER, authMidleware, tweetController.getAllWithMediaByUserId)
+//---------------------------------------------------------------------
+
+//----COMMENTS ENDPOINTS-----------------------------------------------
+router.post(CREATE_COMMENT, authMidleware, upload.single('image'), commentController.create)
+router.put(LIKE_COMMENT, authMidleware, commentController.like)
+router.delete(DELETE_COMMENT, authMidleware, commentController.delete)
 //---------------------------------------------------------------------
 
 export { router };
