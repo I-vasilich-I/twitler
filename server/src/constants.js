@@ -12,6 +12,14 @@ const ROUTES = {
   UPDATE_INFO: '/user',
   UPDATE_PASSWORD: '/user/password',
   DELETE_USER: '/user',
+  CREATE_TWEET: '/tweets',
+  REACT_ON_TWEET: '/tweets/react/:tweetId',
+  DELETE_TWEET: '/tweets/:tweetId',
+  GET_TWEETS_BY_USER: '/tweets/:userId',
+  GET_TWEETS_WITH_REPLIES_BY_USER: '/tweets/with_replies/:userId',
+  GET_TWEETS_WITH_MEDIA_BY_USER: '/tweets/media/:userId',
+  GET_TWEETS_WITH_LIKES_BY_USER: '/tweets/likes/:userId',
+  GET_FOLLOWING_TWEETS: '/tweets/folow',
 }
 
 export { ROUTES, MAX_AGE_REFRESH_TOKEN_COOKIE, BASE_URL }

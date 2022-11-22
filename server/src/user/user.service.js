@@ -1,4 +1,3 @@
-import { PrismaClient } from '@prisma/client';
 import { hash, compare } from 'bcrypt';
 import { v4 as uuidV4 } from 'uuid';
 import { BadRequestException, UnauthorizedRequestException } from '../exceptions/index.js';
@@ -7,8 +6,8 @@ import { BASE_URL } from '../constants.js';
 import UserDto from './dto/user.dto.js';
 import tokenService from '../token/token.service.js';
 import mailerService from '../mailer/mailer.service.js';
+import prisma from '../prisma/prisma.service.js';
 
-const prisma = new PrismaClient();
 const HASH_ROUNDS = +process.env.HASH_ROUNDS || 10;
 
 class UserService {

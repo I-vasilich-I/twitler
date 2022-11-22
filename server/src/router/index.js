@@ -2,9 +2,9 @@ import { Router } from "express";
 import { body, check } from 'express-validator';
 import multer from 'multer';
 import mime from 'mime-types';
-import { PrismaClient } from '@prisma/client';
 import authMidleware from "../midlewares/auth.midleware.js";
 import userController from "../user/user.controller.js";
+import tweetController from '../tweet/tweet.controller.js';
 import { ROUTES } from "../constants.js";
 
 const storage = multer.diskStorage({
@@ -27,7 +27,13 @@ const {
   GET_USER,
   UPDATE_INFO,
   UPDATE_PASSWORD,
-  DELETE_USER
+  DELETE_USER,
+  CREATE_TWEET,
+  DELETE_TWEET,
+  REACT_ON_TWEET,
+  GET_TWEETS_BY_USER,
+  GET_TWEETS_WITH_LIKES_BY_USER,
+  GET_TWEETS_WITH_MEDIA_BY_USER,
 } = ROUTES;
 
 const router = new Router();
@@ -66,6 +72,15 @@ router.put(
   userController.updatePassword
   )
 router.delete(DELETE_USER, authMidleware, userController.delete);
+//---------------------------------------------------------------------
+
+//----TWEETS ENDPOINTS-------------------------------------------------
+router.post(CREATE_TWEET, authMidleware, upload.single('image'), tweetController.create);
+router.delete(DELETE_TWEET, authMidleware, tweetController.delete);
+router.get(REACT_ON_TWEET, authMidleware, tweetController.react);
+router.get(GET_TWEETS_BY_USER, authMidleware, tweetController.getAllByUserId);
+router.get(GET_TWEETS_WITH_LIKES_BY_USER, authMidleware, tweetController.getAllWithLikesByUserId)
+router.get(GET_TWEETS_WITH_MEDIA_BY_USER, authMidleware, tweetController.getAllWithMediaByUserId)
 //---------------------------------------------------------------------
 
 export { router };
