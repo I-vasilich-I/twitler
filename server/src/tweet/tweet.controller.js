@@ -64,4 +64,4 @@ class TweetController {
   }
 }
 
-export default new TweetController;
+export default new TweetController();

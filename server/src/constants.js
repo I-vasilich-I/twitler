@@ -3,6 +3,7 @@ const BASE_URL = 'http://localhost/api'
 
 const ROUTES = {
   BASE: '/',
+  // USER
   SIGN_UP: '/user/signup',
   SIGN_IN: '/user/signin',
   LOG_OUT: '/user/logout',
@@ -12,6 +13,7 @@ const ROUTES = {
   UPDATE_INFO: '/user',
   UPDATE_PASSWORD: '/user/password',
   DELETE_USER: '/user',
+  // TWEET
   CREATE_TWEET: '/tweets',
   REACT_ON_TWEET: '/tweets/react/:tweetId',
   DELETE_TWEET: '/tweets/:tweetId',
@@ -20,6 +22,11 @@ const ROUTES = {
   GET_TWEETS_WITH_MEDIA_BY_USER: '/tweets/media/:userId',
   GET_TWEETS_WITH_LIKES_BY_USER: '/tweets/likes/:userId',
   GET_FOLLOWING_TWEETS: '/tweets/folow',
+  // COMMENT
+  CREATE_COMMENT: '/comment/:tweetId',
+  LIKE_COMMENT: '/comment/:commentId',
+  DELETE_COMMENT: '/comment/:commentId',
+
 }
 
 export { ROUTES, MAX_AGE_REFRESH_TOKEN_COOKIE, BASE_URL }
