@@ -7,6 +7,7 @@ import userController from "../user/user.controller.js";
 import tweetController from '../tweet/tweet.controller.js';
 import { ROUTES } from "../constants.js";
 import commentController from "../comment/comment.controller.js";
+import followController from "../follow/follow.controller.js";
 
 const storage = multer.diskStorage({
   destination: 'public/',
@@ -38,6 +39,9 @@ const {
   CREATE_COMMENT,
   LIKE_COMMENT,
   DELETE_COMMENT,
+  GET_ALL_FOLLOWERS,
+  GET_ALL_FOLLOWING,
+  FOLLOW
 } = ROUTES;
 
 const router = new Router();
@@ -91,6 +95,12 @@ router.get(GET_TWEETS_WITH_MEDIA_BY_USER, authMidleware, tweetController.getAllW
 router.post(CREATE_COMMENT, authMidleware, upload.single('image'), commentController.create)
 router.put(LIKE_COMMENT, authMidleware, commentController.like)
 router.delete(DELETE_COMMENT, authMidleware, commentController.delete)
+//---------------------------------------------------------------------
+
+//----FOLLOW ENDPOINTS-------------------------------------------------
+router.get(GET_ALL_FOLLOWERS, authMidleware, followController.getAllFollowers)
+router.get(GET_ALL_FOLLOWING, authMidleware, followController.getAllFollowing)
+router.put(FOLLOW, authMidleware, followController.follow)
 //---------------------------------------------------------------------
 
 export { router };
