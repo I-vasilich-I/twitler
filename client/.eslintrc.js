@@ -37,7 +37,7 @@ module.exports = {
     "react/jsx-curly-newline": 0, // it conflicts with prettier
     "react/jsx-wrap-multilines": ["error", { arrow: true, return: true, declaration: true }],
     "react/function-component-definition": [2, { namedComponents: "arrow-function" }],
-
+    "no-param-reassign": ["error", { props: true, ignorePropertyModificationsFor: ["state"] }],
     "prettier/prettier": ["error"],
 
     "no-shadow": "off",
