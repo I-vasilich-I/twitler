@@ -62,6 +62,27 @@ class TweetController {
       next(error)
     }
   }
+
+  async getAllWithRepliesByUserId(req, res, next) {
+    try {
+      const userId = +req.params.userId;
+      const tweets = await tweetService.getAllWithRepliesByUserId(userId);
+      return res.json(tweets);
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getAllFollowingTweets(req, res, next) {
+    try {
+      const userId = req.user.id;
+      console.log(userId);
+      const tweets = await tweetService.getAllFollowingTweets(userId);
+      return res.json(tweets)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default new TweetController();
