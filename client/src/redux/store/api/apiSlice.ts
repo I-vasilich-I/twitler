@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BASE_API, APIS, TWITLER_TOKEN_KEY } from "../../../constants";
 import { IAuthData, IAuthResponseData } from "../../../types";
-import { setUser } from "../user/userSlice";
+import { resetUser, setUser } from "../user/userSlice";
 
-const { REFRESH } = APIS;
+const { REFRESH, LOGOUT } = APIS;
 
 type AuthArgs = {
   data: IAuthData;
@@ -62,7 +62,23 @@ export const apiSlice = createApi({
         }
       },
     }),
+    logout: builder.query({
+      query: () => ({
+        url: LOGOUT,
+        method: "POST",
+        credentials: "include",
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          localStorage.removeItem(TWITLER_TOKEN_KEY);
+          dispatch(resetUser());
+        } catch (error) {
+          //
+        }
+      },
+    }),
   }),
 });
 
-export const { useAuthMutation, useCheckAuthQuery, useLazyCheckAuthQuery } = apiSlice;
+export const { useAuthMutation, useCheckAuthQuery, useLazyCheckAuthQuery, useLazyLogoutQuery } = apiSlice;

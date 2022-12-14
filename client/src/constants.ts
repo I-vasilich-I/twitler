@@ -4,6 +4,9 @@ const PATHS = {
   ROOT: "/",
   HOME: "/home",
   EXPLORE: "/explore",
+  BOOKMARKS: "/bookmarks",
+  PROFILE: "/profile",
+  SETTINGS: "/settings",
   UNKNOWN: "*",
 };
 
@@ -14,6 +17,7 @@ const APIS = {
   SIGN_IN: `${USER_API}/signin`,
   SIGN_UP: `${USER_API}/signup`,
   REFRESH: `${USER_API}/refresh`,
+  LOGOUT: `${USER_API}/logout`,
 };
 
 const TWITLER_TOKEN_KEY = "twitler_access_token";
