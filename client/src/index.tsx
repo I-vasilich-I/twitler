@@ -11,7 +11,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import { PATHS } from "./constants";
 import "./index.scss";
 
-const { ROOT, EXPLORE, SIGN_IN, SIGN_UP, HOME, UNKNOWN } = PATHS;
+const { ROOT, EXPLORE, BOOKMARKS, SIGN_IN, SIGN_UP, HOME, PROFILE, SETTINGS, UNKNOWN } = PATHS;
 
 const App = () => (
   <BrowserRouter>
@@ -20,6 +20,9 @@ const App = () => (
         <Route path={ROOT} element={<Navigate to={HOME} replace />} />
         <Route path={HOME} element={<div>Home</div>} />
         <Route path={EXPLORE} element={<div>Explore</div>} />
+        <Route path={BOOKMARKS} element={<div>Bookmarks</div>} />
+        <Route path={PROFILE} element={<div>Profile</div>} />
+        <Route path={SETTINGS} element={<div>Settings</div>} />
       </Route>
       <Route path={SIGN_IN} element={<SignIn />} />
       <Route path={SIGN_UP} element={<SignUp />} />

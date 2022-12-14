@@ -30,9 +30,12 @@ export const userSlice = createSlice({
       state.isActivated = isActivated;
       state.username = username;
     },
+    resetUser() {
+      return initialState;
+    },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;
