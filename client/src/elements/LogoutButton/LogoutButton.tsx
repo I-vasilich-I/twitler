@@ -1,8 +1,8 @@
 import { Typography } from "antd";
-import { useLazyLogoutQuery } from "../../redux/store/api/apiSlice";
+import { useLogoutMutation } from "../../redux/store/api/apiSlice";
 
 const LogoutButton = () => {
-  const [logout] = useLazyLogoutQuery();
+  const [logout] = useLogoutMutation();
   const handleClick = () => {
     logout(null);
   };

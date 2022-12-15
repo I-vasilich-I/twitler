@@ -15,7 +15,13 @@ const ProtectedRoutes = () => {
   return (
     <>
       <Header />
-      <Layout.Content>
+      <Layout.Content
+        style={{
+          margin: "auto",
+          paddingTop: "15px",
+          width: "100%",
+        }}
+      >
         <Outlet />
       </Layout.Content>
     </>
