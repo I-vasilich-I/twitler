@@ -4,7 +4,8 @@ class CommentController {
   async getAll(req, res, next) {
     try {
       const tweetId = +req.params.tweetId;
-      const comments = await commentService.getAll(tweetId);
+      const userId = req.user.id;
+      const comments = await commentService.getAll(tweetId, userId);
       return res.json(comments);
     } catch (error) {
       next(error)
