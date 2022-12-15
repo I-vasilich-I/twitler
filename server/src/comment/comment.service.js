@@ -2,7 +2,7 @@ import { BadRequestException } from "../exceptions/index.js";
 import prisma from "../prisma/prisma.service.js";
 
 class CommentService {
-  async getAll(tweetId) {
+  async getAll(tweetId, userId) {
     const comments = await prisma.comment.findMany({
       where: {
         tweetId
@@ -12,6 +12,11 @@ class CommentService {
           select: {
             avatar: true,
             username: true,
+          }
+        },
+        commentLikes: {
+          where: {
+            userId,
           }
         },
         _count: {
