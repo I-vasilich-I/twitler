@@ -1,6 +1,16 @@
 import commentService from "./comment.service.js";
 
 class CommentController {
+  async getAll(req, res, next) {
+    try {
+      const tweetId = +req.params.tweetId;
+      const comments = await commentService.getAll(tweetId);
+      return res.json(comments);
+    } catch (error) {
+      next(error)
+    }
+  }
+  
   async create(req, res, next) {
     try {
       const { file, user, body } = req;

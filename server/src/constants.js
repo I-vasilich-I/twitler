@@ -23,6 +23,7 @@ const ROUTES = {
   GET_TWEETS_WITH_LIKES_BY_USER: '/tweets/likes/:userId',
   GET_FOLLOWING_TWEETS: '/following-tweets',
   // COMMENT
+  GET_ALL_COMMENTS: '/comment/:tweetId',
   CREATE_COMMENT: '/comment/:tweetId',
   LIKE_COMMENT: '/comment/:commentId',
   DELETE_COMMENT: '/comment/:commentId',

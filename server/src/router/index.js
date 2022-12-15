@@ -38,6 +38,7 @@ const {
   GET_TWEETS_WITH_MEDIA_BY_USER,
   GET_TWEETS_WITH_REPLIES_BY_USER,
   GET_FOLLOWING_TWEETS,
+  GET_ALL_COMMENTS,
   CREATE_COMMENT,
   LIKE_COMMENT,
   DELETE_COMMENT,
@@ -96,6 +97,7 @@ router.get(GET_FOLLOWING_TWEETS, authMidleware, tweetController.getAllFollowingT
 //---------------------------------------------------------------------
 
 //----COMMENTS ENDPOINTS-----------------------------------------------
+router.get(GET_ALL_COMMENTS, authMidleware, commentController.getAll)
 router.post(CREATE_COMMENT, authMidleware, upload.single('image'), commentController.create)
 router.put(LIKE_COMMENT, authMidleware, commentController.like)
 router.delete(DELETE_COMMENT, authMidleware, commentController.delete)
