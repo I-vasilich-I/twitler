@@ -2,6 +2,29 @@ import { BadRequestException } from "../exceptions/index.js";
 import prisma from "../prisma/prisma.service.js";
 
 class CommentService {
+  async getAll(tweetId) {
+    const comments = await prisma.comment.findMany({
+      where: {
+        tweetId
+      },
+      include: {
+        User: {
+          select: {
+            avatar: true,
+            username: true,
+          }
+        },
+        _count: {
+          select: {
+            commentLikes: true
+          }
+        }
+      },
+    })
+
+    return comments;
+  }
+
   async create(text, userId, tweetId, imageData) {
     if (text === undefined && !imageData) {
       throw new BadRequestException('No data was passed');
