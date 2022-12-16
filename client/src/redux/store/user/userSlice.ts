@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { SERVER_URL } from "../../../constants";
 
 interface IUser {
   id: number | null;
@@ -23,7 +24,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, { payload: { username, avatar, bio, email, id, isActivated } }: PayloadAction<IUser>) {
-      state.avatar = avatar;
+      state.avatar = avatar ? `${SERVER_URL}/${avatar}` : null;
       state.bio = bio;
       state.email = email;
       state.id = id;
