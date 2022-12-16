@@ -63,41 +63,55 @@ class TweetService {
   }
 
   async handleRetweet(userId, tweetId, reaction) {
+    const retweetInDb = await prisma.retweet.findFirst({ where: { userId, tweetId } })
+
     if (reaction) {
+      if (retweetInDb) {
+        return;
+      }
+
       await prisma.retweet.create({ data: { userId, tweetId } })
       return;
     }
 
-    const retweet = await prisma.retweet.findFirst({ where: { userId, tweetId } })
 
-    if (retweet) {
-      await prisma.retweet.delete({ where: { id: retweet.id }});
+    if (retweetInDb) {
+      await prisma.retweet.delete({ where: { id: retweetInDb.id }});
     }
   }
 
   async handleLike(userId, tweetId, reaction) {
+    const likeInDb = await prisma.tweetLike.findFirst({ where: { userId, tweetId }});
+   
     if (reaction) {
+      if (likeInDb) {
+        return;
+      }
+
       await prisma.tweetLike.create({ data: { userId, tweetId }});
       return;
     }
 
-    const like = await prisma.tweetLike.findFirst({ where: { userId, tweetId }});
 
-    if (like) {
-      await prisma.tweetLike.delete({ where: { id: like.id }});
+    if (likeInDb) {
+      await prisma.tweetLike.delete({ where: { id: likeInDb.id }});
     }
   }
 
   async handleSave(userId, tweetId, reaction) {
+    const bookmarkInDb = await prisma.bookmark.findFirst({ where: { userId, tweetId }});
     if (reaction) {
+      if (bookmarkInDb) {
+        return;
+      }
+
       await prisma.bookmark.create({ data: { userId, tweetId }})
       return;
     }
 
-    const bookmark = await prisma.bookmark.findFirst({ where: { userId, tweetId }});
     
-    if (bookmark) {
-      await prisma.bookmark.delete({ where: { id: bookmark.id }});
+    if (bookmarkInDb) {
+      await prisma.bookmark.delete({ where: { id: bookmarkInDb.id }});
     }
   }
 
@@ -184,14 +198,50 @@ class TweetService {
   async getAllFollowingTweets(userId) {
     const tweets = await prisma.tweet.findMany({
       where: {
-        User: {
-          followers: {
-            some: {
-              followerUserId: userId
+        OR: [
+          { userId },
+          {
+            User: {
+              followers: {
+                some: {
+                  followerUserId: userId
+                }
+              }
             }
           }
-        }
+        ],
       }, 
+      include: {
+        retweets: {
+          where: {
+            userId
+          }
+        },
+        tweetLikes: {
+          where: {
+            userId
+          }
+        },
+        bookmarks: {
+          where: {
+            userId
+          }
+        },
+        User: {
+          select: {
+            avatar: true,
+            username: true,
+          }
+        },
+        _count: {
+          select: {
+            retweets: true,
+            tweetLikes: true,
+            bookmarks: true,
+            comments: true,
+          }
+        }
+      },
       orderBy: {
         timestamp: 'desc'
       }
