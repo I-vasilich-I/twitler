@@ -7,5 +7,6 @@ const formatTimestamp = (timestamp: string | number | Date) => {
   return result;
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { formatTimestamp };
+const getTweetsPath = (path: string, userId?: string | number) => (userId ? `${path}/${userId}` : path);
+
+export { formatTimestamp, getTweetsPath };

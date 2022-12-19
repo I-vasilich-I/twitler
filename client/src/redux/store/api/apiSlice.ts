@@ -5,11 +5,12 @@ import {
   IAuthResponseData,
   IComment,
   ICommentsResponseData,
-  IFollowingTweetResponseData,
+  ITweetResponseData,
+  IUserResponseData,
 } from "../../../types";
 import { resetUser, setUser } from "../user/userSlice";
 
-const { REFRESH, LOGOUT, COMMENT, FOLLOWING_TWEETS, REACT_ON_TWEET, CREATE_TWEET } = APIS;
+const { REFRESH, LOGOUT, COMMENT, REACT_ON_TWEET, CREATE_TWEET, GET_USER } = APIS;
 
 type AuthArgs = {
   data: IAuthData;
@@ -101,7 +102,7 @@ export const apiSlice = createApi({
         body: data,
         credentials: "include",
       }),
-      invalidatesTags: ["Comments"],
+      invalidatesTags: ["Comments", "Tweets"],
     }),
     likeComment: builder.mutation({
       query: ({ like = true, commentId }) => ({
@@ -129,30 +130,6 @@ export const apiSlice = createApi({
           })
         ),
       providesTags: ["Comments"],
-    }),
-    getFollowingTweets: builder.query({
-      query: () => ({
-        url: FOLLOWING_TWEETS,
-        method: "GET",
-        credentials: "include",
-      }),
-      providesTags: ["Tweets"],
-      transformResponse: (response: IFollowingTweetResponseData[]) =>
-        response.map(({ User: { avatar, username }, retweets, tweetLikes, bookmarks, imageLink, _count, ...rest }) => ({
-          ...rest,
-          avatar: avatar ? `${SERVER_URL}/${avatar}` : null,
-          username,
-          imageLink: imageLink ? `${SERVER_URL}/${imageLink}` : null,
-          hasMyRetweet: Boolean(retweets.length),
-          hasMyLike: Boolean(tweetLikes.length),
-          hasMyBookmark: Boolean(bookmarks.length),
-          counters: {
-            retweets: _count.retweets,
-            tweetLikes: _count.tweetLikes,
-            bookmarks: _count.bookmarks,
-            comments: _count.comments,
-          },
-        })),
     }),
     reactOnTweet: builder.mutation<void, ReactOnTweetArgs>({
       query: ({ like, retweet, save, tweetId }) => {
@@ -187,6 +164,43 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Tweets"],
     }),
+    getTweets: builder.query({
+      query: (url) => ({
+        url,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["Tweets"],
+      transformResponse: (response: ITweetResponseData[]) =>
+        response.map(({ User: { avatar, username }, retweets, tweetLikes, bookmarks, imageLink, _count, ...rest }) => ({
+          ...rest,
+          avatar: avatar ? `${SERVER_URL}/${avatar}` : null,
+          username,
+          imageLink: imageLink ? `${SERVER_URL}/${imageLink}` : null,
+          hasMyRetweet: Boolean(retweets.length),
+          hasMyLike: Boolean(tweetLikes.length),
+          hasMyBookmark: Boolean(bookmarks.length),
+          counters: {
+            retweets: _count.retweets,
+            tweetLikes: _count.tweetLikes,
+            bookmarks: _count.bookmarks,
+            comments: _count.comments,
+          },
+        })),
+    }),
+    getUserInfo: builder.query({
+      query: (userId) => ({
+        url: GET_USER(userId),
+        method: "GET",
+        credentials: "include",
+      }),
+      transformResponse: ({ _count: { followers, following }, avatar, ...rest }: IUserResponseData) => ({
+        ...rest,
+        avatar: avatar ? `${SERVER_URL}/${avatar}` : null,
+        followers,
+        following,
+      }),
+    }),
   }),
 });
 
@@ -198,7 +212,8 @@ export const {
   useCreateCommentMutation,
   useGetCommentsQuery,
   useLikeCommentMutation,
-  useGetFollowingTweetsQuery,
   useReactOnTweetMutation,
   useCreateTweetMutation,
+  useGetTweetsQuery,
+  useGetUserInfoQuery,
 } = apiSlice;
