@@ -6,4 +6,36 @@ const deleteFile = async (path) => {
   } catch {}
 }
 
-export { deleteFile }
+const getTweetsIncludeOptions = (userId) => ({
+  retweets: {
+    where: {
+      userId
+    }
+  },
+  tweetLikes: {
+    where: {
+      userId
+    }
+  },
+  bookmarks: {
+    where: {
+      userId
+    }
+  },
+  User: {
+    select: {
+      avatar: true,
+      username: true,
+    }
+  },
+  _count: {
+    select: {
+      retweets: true,
+      tweetLikes: true,
+      bookmarks: true,
+      comments: true,
+    }
+  }
+})
+
+export { deleteFile, getTweetsIncludeOptions }

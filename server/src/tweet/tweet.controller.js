@@ -36,7 +36,8 @@ class TweetController {
   async getAllByUserId(req, res, next) {
     try {
       const userId = +req.params.userId;
-      const tweets = await tweetService.getAllByUserId(userId)
+      const loggedUserId = req.user.id;
+      const tweets = await tweetService.getAllByUserId(userId, loggedUserId)
       return res.json(tweets);
     } catch (error) {
       next(error)
@@ -46,7 +47,8 @@ class TweetController {
   async getAllWithLikesByUserId(req, res, next) {
     try {
       const userId = +req.params.userId;
-      const tweets = await tweetService.getAllWithLikesByUserId(userId);
+      const loggedUserId = req.user.id;
+      const tweets = await tweetService.getAllWithLikesByUserId(userId, loggedUserId);
       return res.json(tweets); 
     } catch (error) {
       next(error)
@@ -56,7 +58,8 @@ class TweetController {
   async getAllWithMediaByUserId(req, res, next) {
     try {
       const userId = +req.params.userId;
-      const tweets = await tweetService.getAllWithMediaByUserId(userId);
+      const loggedUserId = req.user.id;
+      const tweets = await tweetService.getAllWithMediaByUserId(userId, loggedUserId);
       return res.json(tweets); 
     } catch (error) {
       next(error)
@@ -66,7 +69,8 @@ class TweetController {
   async getAllWithRepliesByUserId(req, res, next) {
     try {
       const userId = +req.params.userId;
-      const tweets = await tweetService.getAllWithRepliesByUserId(userId);
+      const loggedUserId = req.user.id;
+      const tweets = await tweetService.getAllWithRepliesByUserId(userId, loggedUserId);
       return res.json(tweets);
     } catch (error) {
       next(error)
@@ -76,7 +80,6 @@ class TweetController {
   async getAllFollowingTweets(req, res, next) {
     try {
       const userId = req.user.id;
-      console.log(userId);
       const tweets = await tweetService.getAllFollowingTweets(userId);
       return res.json(tweets)
     } catch (error) {

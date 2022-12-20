@@ -1,6 +1,6 @@
 import { BadRequestException } from "../exceptions/index.js";
 import prisma from "../prisma/prisma.service.js";
-import UserDto from "../user/dto/user.dto.js";
+import { getTweetsIncludeOptions } from "../helpers.js";
 
 class TweetService {
   async create({ text, isPublic }, userId, imageData) {
@@ -115,7 +115,7 @@ class TweetService {
     }
   }
 
-  async getAllByUserId(userId) {
+  async getAllByUserId(userId, loggedUserId) {
     const tweets = await prisma.tweet.findMany({ 
       where: { 
         OR: [
@@ -128,6 +128,7 @@ class TweetService {
         }
       ]
     }, 
+    include: getTweetsIncludeOptions(loggedUserId),
     orderBy: { 
       timestamp: 'desc'
     }
@@ -135,24 +136,24 @@ class TweetService {
     return tweets;
   }
 
-  async getAllWithLikesByUserId(userId) {
-    const tweets = await prisma.tweetLike.findMany({ 
+  async getAllWithLikesByUserId(userId, loggedUserId) {
+    const tweets = await prisma.tweet.findMany({ 
       where: { 
-        userId 
-      }, 
-      select: { 
-        Tweet: true 
-      }, 
-      orderBy: { 
-        Tweet: { 
-          timestamp: 'desc' 
+        tweetLikes: {
+          some: {
+            userId
+          }
         } 
+      }, 
+      include:  getTweetsIncludeOptions(loggedUserId),
+      orderBy: { 
+        timestamp: 'desc'
       } 
     })
     return tweets
   }
 
-  async getAllWithMediaByUserId(userId) {
+  async getAllWithMediaByUserId(userId, loggedUserId) {
     const tweets = await prisma.tweet.findMany({ 
       where: { 
         userId, 
@@ -160,6 +161,7 @@ class TweetService {
           not: null 
         } 
       }, 
+      include: getTweetsIncludeOptions(loggedUserId),
       orderBy: { 
         timestamp: 'desc'
       } 
@@ -167,7 +169,7 @@ class TweetService {
     return tweets;
   }
 
-  async getAllWithRepliesByUserId(userId) {
+  async getAllWithRepliesByUserId(userId, loggedUserId) {
     const tweets = await prisma.tweet.findMany({
       where: {
         comments: {
@@ -176,23 +178,13 @@ class TweetService {
           }
         }
       },
-      include: {
-        comments: {
-          include: {
-            User: true,
-          }
-        }
-      }
+      include:  getTweetsIncludeOptions(loggedUserId),
+      orderBy: { 
+        timestamp: 'desc'
+      } 
     })
 
-    return tweets.map(tweet => {
-      tweet.comments = tweet.comments.map(comment => {
-        comment.User = new UserDto(comment.User)
-        return comment;
-      })
-
-      return tweet;
-    });
+    return tweets;
   }
 
   async getAllFollowingTweets(userId) {
@@ -211,37 +203,7 @@ class TweetService {
           }
         ],
       }, 
-      include: {
-        retweets: {
-          where: {
-            userId
-          }
-        },
-        tweetLikes: {
-          where: {
-            userId
-          }
-        },
-        bookmarks: {
-          where: {
-            userId
-          }
-        },
-        User: {
-          select: {
-            avatar: true,
-            username: true,
-          }
-        },
-        _count: {
-          select: {
-            retweets: true,
-            tweetLikes: true,
-            bookmarks: true,
-            comments: true,
-          }
-        }
-      },
+      include:  getTweetsIncludeOptions(userId),
       orderBy: {
         timestamp: 'desc'
       }
