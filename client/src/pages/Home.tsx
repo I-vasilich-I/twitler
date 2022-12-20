@@ -1,39 +1,20 @@
-import { Layout, Spin } from "antd";
-import Tweet from "../components/Tweet/Tweet";
+import { Layout } from "antd";
 import TweetForm from "../components/TweetForm/TweetForm";
-import { useGetFollowingTweetsQuery } from "../redux/store/api/apiSlice";
+import Tweets from "../components/Tweets/Tweets";
 
-const Home = () => {
-  const { data: tweets = [], isLoading } = useGetFollowingTweetsQuery(undefined);
-
-  return (
-    <Layout
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 20,
-      }}
-    >
-      <TweetForm />
-      <Spin spinning={isLoading} size="large">
-        <Layout
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 20,
-          }}
-        >
-          {tweets.map((tweetProps) => (
-            <Tweet key={tweetProps.id} {...tweetProps} />
-          ))}
-        </Layout>
-      </Spin>
-    </Layout>
-  );
-};
+const Home = () => (
+  <Layout
+    style={{
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      gap: 20,
+    }}
+  >
+    <TweetForm />
+    <Tweets />
+  </Layout>
+);
 
 export default Home;

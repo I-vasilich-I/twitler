@@ -12,6 +12,7 @@ const Tweet = ({
   id,
   avatar,
   username,
+  userId,
   timestamp,
   text,
   imageLink,
@@ -27,7 +28,7 @@ const Tweet = ({
       style={{ maxWidth: "825px", width: "100%" }}
       bodyStyle={{ display: "flex", flexDirection: "column", justifyContent: "center" }}
     >
-      <TweetHeader avatar={avatar} username={username} timestamp={timestamp} />
+      <TweetHeader avatar={avatar} username={username} timestamp={timestamp} userId={userId} />
       <TweetText text={text} />
       <TweetMedia src={imageLink} />
       <TweetCounters {...counters} />

@@ -11,9 +11,24 @@ import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import { PATHS } from "./constants";
+import Profile from "./pages/Profile";
+import { getTweetsPath } from "./helpers";
 import "./index.scss";
 
-const { ROOT, EXPLORE, BOOKMARKS, SIGN_IN, SIGN_UP, HOME, PROFILE, SETTINGS, UNKNOWN } = PATHS;
+const {
+  ROOT,
+  EXPLORE,
+  BOOKMARKS,
+  SIGN_IN,
+  SIGN_UP,
+  HOME,
+  SETTINGS,
+  UNKNOWN,
+  PROFILE_TWEETS,
+  PROFILE_TWEETS_WITH_REPLIES,
+  PROFILE_TWEETS_WITH_MEDIA,
+  PROFILE_TWEETS_WITH_LIKES,
+} = PATHS;
 
 const App = () => {
   const { isLoading } = useCheckAuth();
@@ -28,7 +43,15 @@ const App = () => {
           <Route path={HOME} element={<Home />} />
           <Route path={EXPLORE} element={<div>Explore</div>} />
           <Route path={BOOKMARKS} element={<div>Bookmarks</div>} />
-          <Route path={PROFILE} element={<div>Profile</div>} />
+          <Route path={PROFILE_TWEETS} element={<Profile />}>
+            <Route path={PROFILE_TWEETS_WITH_REPLIES} element={<Profile />} />
+            <Route path={PROFILE_TWEETS_WITH_MEDIA} element={<Profile />} />
+            <Route path={PROFILE_TWEETS_WITH_LIKES} element={<Profile />} />
+            <Route path={getTweetsPath(PROFILE_TWEETS, ":userId")} element={<Profile />} />
+            <Route path={getTweetsPath(PROFILE_TWEETS_WITH_REPLIES, ":userId")} element={<Profile />} />
+            <Route path={getTweetsPath(PROFILE_TWEETS_WITH_MEDIA, ":userId")} element={<Profile />} />
+            <Route path={getTweetsPath(PROFILE_TWEETS_WITH_LIKES, ":userId")} element={<Profile />} />
+          </Route>
           <Route path={SETTINGS} element={<div>Settings</div>} />
         </Route>
         <Route path={SIGN_IN} element={<SignIn />} />

@@ -6,7 +6,7 @@ import useAppSelector from "../../../redux/hooks/useAppSelector";
 
 const items: MenuProps["items"] = [
   {
-    label: <Link to={PATHS.PROFILE}>My profile</Link>,
+    label: <Link to={PATHS.PROFILE_TWEETS}>My profile</Link>,
     key: "profile",
   },
   {
@@ -28,7 +28,7 @@ const UserMenu = () => {
   return (
     <Dropdown menu={{ items }} trigger={["click"]}>
       <Button type="dashed" size="large">
-        <Avatar size={24} src={avatar} />
+        <Avatar size={24} src={avatar} shape="square" />
         <span style={{ marginLeft: "12px" }}>{username ?? "User"}</span>
       </Button>
     </Dropdown>

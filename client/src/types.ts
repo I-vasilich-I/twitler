@@ -81,6 +81,7 @@ interface IComment {
   id: number;
   avatar: string | null;
   username: string;
+  userId: number;
   timestamp: string;
   text: string;
   imageLink: string | null;
@@ -89,7 +90,7 @@ interface IComment {
   loading?: boolean;
 }
 
-interface IFollowingTweetResponseData {
+interface ITweetResponseData {
   id: number;
   userId: number;
   timestamp: string;
@@ -106,10 +107,18 @@ interface IFollowingTweetResponseData {
   _count: ICounters;
 }
 
+interface IUserResponseData extends IUser {
+  _count: {
+    followers: number;
+    following: number;
+  };
+}
+
 interface ITweet {
   id: number;
   avatar: string | null;
   username: string;
+  userId: number;
   timestamp: string;
   text: string;
   imageLink: string | null;
@@ -136,7 +145,8 @@ export type {
   IAuthResponseData,
   ICommentsResponseData,
   IComment,
-  IFollowingTweetResponseData,
+  ITweetResponseData,
   ITweet,
   ICounters,
+  IUserResponseData,
 };
