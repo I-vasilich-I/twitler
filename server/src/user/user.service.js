@@ -89,13 +89,27 @@ class UserService {
       throw new BadRequestException();
     }
 
-    const user = await prisma.user.findUnique({ where: { id }});
+    const user = await prisma.user.findUnique({ 
+      where: { 
+        id 
+      }, 
+      include: {
+        _count: {
+          select: {
+            followers: true,
+            following: true,
+          }
+        }
+      }
+    });
     
     if (!user) {
       throw new BadRequestException(`User with id: ${id} doesn't exist`);
     }
 
-    return new UserDto(user);
+    const responseUser = new UserDto(user)
+
+    return { ...responseUser, _count: user._count};
   }
 
   async updateInfo(data, id, avatarData) {
