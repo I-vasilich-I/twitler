@@ -84,7 +84,7 @@ class UserService {
     }
   }
 
-  async getById(id) {
+  async getById(id, loggedUserId) {
     if (!id) {
       throw new BadRequestException();
     }
@@ -99,7 +99,12 @@ class UserService {
             followers: true,
             following: true,
           }
-        }
+        },
+        followers: {
+          where: {
+            followerUserId: loggedUserId,
+          }
+        },
       }
     });
     
@@ -108,8 +113,9 @@ class UserService {
     }
 
     const responseUser = new UserDto(user)
+    const { _count, followers } = user;
 
-    return { ...responseUser, _count: user._count};
+    return { ...responseUser, _count, amIFollowing: Boolean(followers.length) };
   }
 
   async updateInfo(data, id, avatarData) {
