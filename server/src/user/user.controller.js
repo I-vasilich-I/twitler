@@ -70,7 +70,8 @@ class UserController {
   async getById(req, res, next) {
     try {
       const { id } = req.params;
-      const userData = await userService.getById(+id);
+      const loggedUserId = req.user.id;
+      const userData = await userService.getById(+id, loggedUserId);
       return res.json(userData);
     } catch (error) {
       next(error)
