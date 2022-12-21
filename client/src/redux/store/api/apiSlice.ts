@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_API, APIS, TWITLER_TOKEN_KEY, SERVER_URL } from "../../../constants";
+import { BASE_API, APIS, TWITLER_TOKEN_KEY } from "../../../constants";
+import { getImageUrl } from "../../../helpers";
 import {
   IAuthData,
   IAuthResponseData,
   IComment,
   ICommentsResponseData,
+  IFollowResponseData,
   ITweetResponseData,
   IUserResponseData,
 } from "../../../types";
@@ -121,9 +123,9 @@ export const apiSlice = createApi({
       transformResponse: (response: ICommentsResponseData[]) =>
         response.map(
           ({ User: { avatar, username }, commentLikes, imageLink, _count: { commentLikes: likes }, ...rest }) => ({
-            avatar: avatar ? `${SERVER_URL}/${avatar}` : null,
+            avatar: getImageUrl(avatar),
             username,
-            imageLink: imageLink ? `${SERVER_URL}/${imageLink}` : null,
+            imageLink: getImageUrl(imageLink),
             hasMyLike: Boolean(commentLikes.length),
             likes,
             ...rest,
@@ -174,9 +176,9 @@ export const apiSlice = createApi({
       transformResponse: (response: ITweetResponseData[]) =>
         response.map(({ User: { avatar, username }, retweets, tweetLikes, bookmarks, imageLink, _count, ...rest }) => ({
           ...rest,
-          avatar: avatar ? `${SERVER_URL}/${avatar}` : null,
+          avatar: getImageUrl(avatar),
           username,
-          imageLink: imageLink ? `${SERVER_URL}/${imageLink}` : null,
+          imageLink: getImageUrl(imageLink),
           hasMyRetweet: Boolean(retweets.length),
           hasMyLike: Boolean(tweetLikes.length),
           hasMyBookmark: Boolean(bookmarks.length),
@@ -194,12 +196,37 @@ export const apiSlice = createApi({
         method: "GET",
         credentials: "include",
       }),
+      providesTags: ["User"],
       transformResponse: ({ _count: { followers, following }, avatar, ...rest }: IUserResponseData) => ({
         ...rest,
-        avatar: avatar ? `${SERVER_URL}/${avatar}` : null,
+        avatar: getImageUrl(avatar),
         followers,
         following,
       }),
+    }),
+    follow: builder.mutation({
+      query: (url) => ({
+        url,
+        method: "PUT",
+        credentials: "include",
+      }),
+      invalidatesTags: ["Tweets", "User"],
+    }),
+    getFollowData: builder.query({
+      query: (url) => ({
+        url,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["User"],
+      transformResponse: ({ data: followData, ...rest }: IFollowResponseData) => {
+        const data = followData.map(({ avatar, ...followersRest }) => ({
+          ...followersRest,
+          avatar: getImageUrl(avatar),
+        }));
+
+        return { ...rest, data };
+      },
     }),
   }),
 });
@@ -216,4 +243,6 @@ export const {
   useCreateTweetMutation,
   useGetTweetsQuery,
   useGetUserInfoQuery,
+  useFollowMutation,
+  useGetFollowDataQuery,
 } = apiSlice;
