@@ -112,6 +112,7 @@ interface IUserResponseData extends IUser {
     followers: number;
     following: number;
   };
+  amIFollowing: boolean;
 }
 
 interface ITweet {
@@ -129,13 +130,47 @@ interface ITweet {
   isPublic: boolean;
 }
 
+interface IFollowData {
+  username: string;
+  id: number;
+  bio: string | null;
+  avatar: string | null;
+  followers: number;
+  amIFollowing: boolean;
+}
+
+interface IFollowingResponseData {
+  following: IFollowData[];
+  username: string;
+}
+
+interface IFollowersResponseData {
+  followers: IFollowData[];
+  username: string;
+}
+
+interface IFollowResponseData {
+  data: IFollowData[];
+  username: string;
+}
+
 const enum ReactionButtonTypes {
   RETWEET,
   LIKE,
   SAVE,
 }
 
-export { ReactionButtonTypes };
+const enum FollowTypes {
+  FOLLOW = "follow",
+  UNFOLLOW = "unfollow",
+}
+
+const enum FollowModalTypes {
+  FOLLOWING = "following",
+  FOLLOWERS = "followers",
+}
+
+export { ReactionButtonTypes, FollowTypes, FollowModalTypes };
 
 export type {
   ISignUpData,
@@ -149,4 +184,7 @@ export type {
   ITweet,
   ICounters,
   IUserResponseData,
+  IFollowingResponseData,
+  IFollowersResponseData,
+  IFollowResponseData,
 };
