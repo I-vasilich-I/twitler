@@ -1,44 +1,77 @@
 import { BadRequestException } from '../exceptions/index.js';
 import prisma from '../prisma/prisma.service.js'
-import UserDto from '../user/dto/user.dto.js';
+import { getFollowSelectOptions } from "../helpers.js"
 
 class FollowService {
-  async getAllFollowers(userId) {
-    const { followers } = await prisma.user.findUnique({ 
+  async getAllFollowers(userId, loggedUserId) {
+    const user= await prisma.user.findUnique({ 
       where: { 
         id: userId 
       }, 
       select: { 
+        username: true,
         followers: { 
           select: { 
-            Follower: true 
+            Follower: {
+              select: getFollowSelectOptions(loggedUserId),
+            } 
           } 
         } 
-      }
+      },
     });
-    return followers.map(({ Follower }) => {
-      const user = new UserDto(Follower);
-      return { ...user }
-    });
+
+    const { followers, ...rest } = user;
+
+    const data = followers.map(
+      ({
+        Follower: {
+          _count: { followers },
+          followers: followersArr,
+          ...followingRest
+        },
+      }) => ({
+        ...followingRest,
+        followers,
+        amIFollowing: Boolean(followersArr.length),
+      })
+    )
+
+    return { ...rest, data };
   }
 
-  async getAllFollowing(userId) {
-    const { following } = await prisma.user.findUnique({
+  async getAllFollowing(userId, loggedUserId) {
+    const user = await prisma.user.findUnique({
       where: {
         id: userId,
       },
       select: {
+        username: true,
         following: {
           select: {
-            Following: true,
+            Following: {
+              select: getFollowSelectOptions(loggedUserId),
+            }
           }
         }
       }
     });
-    return following.map(({ Following }) => {
-      const user = new UserDto(Following);
-      return { ...user }
-    });
+
+    const { following, ...rest } = user;
+
+    const data = following.map(
+      ({
+        Following: {
+          _count: { followers },
+          followers: followersArr,
+          ...followingRest
+        },
+      }) => ({
+        ...followingRest,
+        followers,
+        amIFollowing: Boolean(followersArr.length),
+      }))
+
+    return { ...rest, data };
   }
 
   async handleFollow(followerUserId, followingUserId, type) {
