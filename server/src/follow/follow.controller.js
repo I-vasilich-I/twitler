@@ -4,7 +4,8 @@ class FollowController {
   async getAllFollowers(req, res, next) {
     try {
       const { userId } = req.params;
-      const followers = await followService.getAllFollowers(+userId);
+      const loggedUserId = req.user.id;
+      const followers = await followService.getAllFollowers(+userId, loggedUserId);
       res.json(followers);
     } catch (error) {
       next(error)
@@ -14,7 +15,8 @@ class FollowController {
   async getAllFollowing(req, res, next) {
     try {
       const { userId } = req.params;
-      const following = await followService.getAllFollowing(+userId);
+      const loggedUserId = req.user.id;
+      const following = await followService.getAllFollowing(+userId, loggedUserId);
       res.json(following);
     } catch (error) {
       next(error)

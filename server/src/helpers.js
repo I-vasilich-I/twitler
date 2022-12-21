@@ -38,4 +38,21 @@ const getTweetsIncludeOptions = (userId) => ({
   }
 })
 
-export { deleteFile, getTweetsIncludeOptions }
+const getFollowSelectOptions = (userId) => ({
+  username: true,
+  id: true,
+  bio: true, 
+  avatar: true,
+  _count: {
+    select: {
+      followers: true,
+    }
+  },
+  followers: { 
+    where: {
+      followerUserId: userId
+    }
+  }
+})
+
+export { deleteFile, getTweetsIncludeOptions, getFollowSelectOptions }
