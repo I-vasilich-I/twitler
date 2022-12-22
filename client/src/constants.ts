@@ -18,6 +18,7 @@ const BASE_API = `${SERVER_URL}/api`;
 const USER_API = `${BASE_API}/user`;
 const COMMENT_API = `${BASE_API}/comment`;
 const TWEETS_API = `${BASE_API}/tweets`;
+const EXPLORE = `${BASE_API}/search`;
 
 const APIS = {
   SIGN_IN: `${USER_API}/signin`,
@@ -33,6 +34,7 @@ const APIS = {
   GET_TWEETS_WITH_REPLIES_BY_USER_ID: (userId: number) => `${TWEETS_API}/with_replies/${userId}`,
   GET_TWEETS_WITH_MEDIA_BY_USER_ID: (userId: number) => `${TWEETS_API}/media/${userId}`,
   GET_TWEETS_WITH_LIKES_BY_USER_ID: (userId: number) => `${TWEETS_API}/likes/${userId}`,
+  EXPLORE,
 };
 
 const TWITLER_TOKEN_KEY = "twitler_access_token";

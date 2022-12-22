@@ -6,6 +6,7 @@ import {
   IAuthResponseData,
   IComment,
   ICommentsResponseData,
+  IFollowData,
   IFollowResponseData,
   ITweetResponseData,
   IUserResponseData,
@@ -228,6 +229,14 @@ export const apiSlice = createApi({
         return { ...rest, data };
       },
     }),
+    getPeople: builder.query<IFollowData[], string>({
+      query: (url) => ({
+        url,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ["User"],
+    }),
   }),
 });
 
@@ -245,4 +254,5 @@ export const {
   useGetUserInfoQuery,
   useFollowMutation,
   useGetFollowDataQuery,
+  useGetPeopleQuery,
 } = apiSlice;

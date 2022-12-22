@@ -11,7 +11,7 @@ type Props = {
   userId?: string;
 };
 
-const UserCard = ({ userId }: Props) => {
+const ProfileCard = ({ userId }: Props) => {
   const { id } = useAppSelector((state) => state.USER);
   const { data, isLoading, isError } = useUserInfo(userId);
   const [modalType, setModalType] = useState<FollowModalTypes | null>(null);
@@ -80,4 +80,4 @@ const UserCard = ({ userId }: Props) => {
   );
 };
 
-export default UserCard;
+export default ProfileCard;

@@ -1,9 +1,9 @@
 import { Avatar, Card, Col, Row, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../../constants";
-import FollowButton from "../../../elements/FollowButton/FollowButton";
-import { getTweetsPath } from "../../../helpers";
-import useAppSelector from "../../../redux/hooks/useAppSelector";
+import { PATHS } from "../../constants";
+import FollowButton from "../FollowButton/FollowButton";
+import { getTweetsPath } from "../../helpers";
+import useAppSelector from "../../redux/hooks/useAppSelector";
 
 type Props = {
   userId: number;
@@ -12,10 +12,10 @@ type Props = {
   bio: string | null;
   followers: number;
   amIFollowing: boolean;
-  handleCancel: () => void;
+  handleCancel?: () => void;
 };
 
-const FollowUserCard = ({ userId, avatar, username, bio, followers, amIFollowing, handleCancel }: Props) => {
+const UserCard = ({ userId, avatar, username, bio, followers, amIFollowing, handleCancel }: Props) => {
   const { id } = useAppSelector((state) => state.USER);
   const linkUserId = id === userId ? undefined : userId;
 
@@ -58,4 +58,4 @@ const FollowUserCard = ({ userId, avatar, username, bio, followers, amIFollowing
   );
 };
 
-export default FollowUserCard;
+export default UserCard;
