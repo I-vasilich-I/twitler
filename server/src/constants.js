@@ -30,7 +30,10 @@ const ROUTES = {
   // FOLLOW
   GET_ALL_FOLLOWERS: '/followers/:userId',
   GET_ALL_FOLLOWING: '/following/:userId',
-  FOLLOW: '/follow/:userId'
+  FOLLOW: '/follow/:userId',
+  // EXPLORE
+  EXPLORE: '/search',
+  EXPLORE_QUERY: '/search/:query',
 }
 
 export { ROUTES, MAX_AGE_REFRESH_TOKEN_COOKIE, BASE_URL }
