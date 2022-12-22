@@ -7,10 +7,14 @@ import { useGetTweetsQuery } from "../../redux/store/api/apiSlice";
 import TweetsContainer from "../TweetsContainer/TweetsContainer";
 import "./Tweets.scss";
 
-const Tweets = () => {
+type Props = {
+  url?: string;
+};
+
+const Tweets = ({ url }: Props) => {
   const { userId } = useParams();
-  const url = useTweetsUrl(userId ? Number(userId) : undefined);
-  const { data, isLoading, isError } = useGetTweetsQuery(url);
+  const tweetsUrl = url ?? useTweetsUrl(userId ? Number(userId) : undefined);
+  const { data, isLoading, isError } = useGetTweetsQuery(tweetsUrl);
 
   useEffect(() => {
     if (isError) {

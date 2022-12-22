@@ -1,10 +1,10 @@
 import { Empty, message, Modal } from "antd";
 import { useEffect } from "react";
 import { BASE_API, ERROR_MESSAGES } from "../../constants";
+import UserCard from "../../elements/UserCard/UserCard";
 import useAppSelector from "../../redux/hooks/useAppSelector";
 import { useGetFollowDataQuery } from "../../redux/store/api/apiSlice";
 import { FollowModalTypes } from "../../types";
-import FollowUserCard from "./FollowUserCard/FollowUserCard";
 
 type Props = {
   userId: number | string | null;
@@ -38,7 +38,7 @@ const FollowModal = ({ userId, type, handleCancel }: Props) => {
     >
       {followData?.length ? (
         followData.map(({ username: followUsername, bio, id: followUserId, avatar, followers, amIFollowing }) => (
-          <FollowUserCard
+          <UserCard
             key={followUserId}
             userId={followUserId}
             avatar={avatar}

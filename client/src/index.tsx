@@ -9,6 +9,7 @@ import useCheckAuth from "./hooks/useCheckAuth";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
+import Explore from "./pages/Explore";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import { PATHS } from "./constants";
 import Profile from "./pages/Profile";
@@ -41,7 +42,7 @@ const App = () => {
         <Route element={<ProtectedRoutes />}>
           <Route path={ROOT} element={<Navigate to={HOME} replace />} />
           <Route path={HOME} element={<Home />} />
-          <Route path={EXPLORE} element={<div>Explore</div>} />
+          <Route path={EXPLORE} element={<Explore />} />
           <Route path={BOOKMARKS} element={<div>Bookmarks</div>} />
           <Route path={PROFILE_TWEETS} element={<Profile />}>
             <Route path={PROFILE_TWEETS_WITH_REPLIES} element={<Profile />} />

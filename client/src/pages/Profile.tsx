@@ -2,7 +2,7 @@ import { Layout, MenuProps } from "antd";
 import { Link, useParams } from "react-router-dom";
 import SubNav from "../components/SubNav/SubNav";
 import Tweets from "../components/Tweets/Tweets";
-import UserCard from "../components/UserCard/UserCard";
+import ProfileCard from "../components/ProfileCard/ProfileCard";
 import { PATHS } from "../constants";
 import { getTweetsPath } from "../helpers";
 
@@ -40,7 +40,7 @@ const Profile = () => {
         gap: 20,
       }}
     >
-      <UserCard userId={userId} />
+      <ProfileCard userId={userId} />
       <SubNav items={items(userId)} />
       <Tweets />
     </Layout>

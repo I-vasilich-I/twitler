@@ -170,7 +170,14 @@ const enum FollowModalTypes {
   FOLLOWERS = "followers",
 }
 
-export { ReactionButtonTypes, FollowTypes, FollowModalTypes };
+enum FilterTypes {
+  TOP = "top",
+  LATEST = "latest",
+  MEDIA = "media",
+  PEOPLE = "people",
+}
+
+export { ReactionButtonTypes, FollowTypes, FollowModalTypes, FilterTypes };
 
 export type {
   ISignUpData,
@@ -187,4 +194,5 @@ export type {
   IFollowingResponseData,
   IFollowersResponseData,
   IFollowResponseData,
+  IFollowData,
 };
