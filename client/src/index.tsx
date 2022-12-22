@@ -10,6 +10,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
+import Bookmark from "./pages/Bookmarks";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import { PATHS } from "./constants";
 import Profile from "./pages/Profile";
@@ -19,16 +20,21 @@ import "./index.scss";
 const {
   ROOT,
   EXPLORE,
-  BOOKMARKS,
   SIGN_IN,
   SIGN_UP,
   HOME,
   SETTINGS,
   UNKNOWN,
+  PROFILE,
   PROFILE_TWEETS,
   PROFILE_TWEETS_WITH_REPLIES,
   PROFILE_TWEETS_WITH_MEDIA,
   PROFILE_TWEETS_WITH_LIKES,
+  BOOKMARKS,
+  BOOKMARKS_TWEETS,
+  BOOKMARKS_TWEETS_WITH_REPLIES,
+  BOOKMARKS_TWEETS_WITH_MEDIA,
+  BOOKMARKS_TWEETS_WITH_LIKES,
 } = PATHS;
 
 const App = () => {
@@ -43,7 +49,11 @@ const App = () => {
           <Route path={ROOT} element={<Navigate to={HOME} replace />} />
           <Route path={HOME} element={<Home />} />
           <Route path={EXPLORE} element={<Explore />} />
-          <Route path={BOOKMARKS} element={<div>Bookmarks</div>} />
+          <Route path={BOOKMARKS_TWEETS} element={<Bookmark />}>
+            <Route path={BOOKMARKS_TWEETS_WITH_REPLIES} element={<Bookmark />} />
+            <Route path={BOOKMARKS_TWEETS_WITH_MEDIA} element={<Bookmark />} />
+            <Route path={BOOKMARKS_TWEETS_WITH_LIKES} element={<Bookmark />} />
+          </Route>
           <Route path={PROFILE_TWEETS} element={<Profile />}>
             <Route path={PROFILE_TWEETS_WITH_REPLIES} element={<Profile />} />
             <Route path={PROFILE_TWEETS_WITH_MEDIA} element={<Profile />} />
@@ -54,6 +64,8 @@ const App = () => {
             <Route path={getTweetsPath(PROFILE_TWEETS_WITH_LIKES, ":userId")} element={<Profile />} />
           </Route>
           <Route path={SETTINGS} element={<div>Settings</div>} />
+          <Route path={BOOKMARKS} element={<Navigate to={BOOKMARKS_TWEETS} replace />} />
+          <Route path={PROFILE} element={<Navigate to={PROFILE_TWEETS} replace />} />
         </Route>
         <Route path={SIGN_IN} element={<SignIn />} />
         <Route path={SIGN_UP} element={<SignUp />} />

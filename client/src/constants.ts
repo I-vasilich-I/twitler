@@ -4,11 +4,16 @@ const PATHS = {
   ROOT: "/",
   HOME: "/home",
   EXPLORE: "/explore",
-  BOOKMARKS: "/bookmarks",
+  BOOKMARKS: "/bookmarks/*",
+  PROFILE: "/profile/*",
   PROFILE_TWEETS: "/profile/tweets",
   PROFILE_TWEETS_WITH_REPLIES: "/profile/tweets/with-replies",
   PROFILE_TWEETS_WITH_MEDIA: "/profile/tweets/with-media",
   PROFILE_TWEETS_WITH_LIKES: "/profile/tweets/with-likes",
+  BOOKMARKS_TWEETS: "/bookmarks/tweets",
+  BOOKMARKS_TWEETS_WITH_REPLIES: "/bookmarks/tweets/with-replies",
+  BOOKMARKS_TWEETS_WITH_MEDIA: "/bookmarks/tweets/with-media",
+  BOOKMARKS_TWEETS_WITH_LIKES: "/bookmarks/tweets/with-likes",
   SETTINGS: "/settings",
   UNKNOWN: "*",
 };
@@ -19,6 +24,7 @@ const USER_API = `${BASE_API}/user`;
 const COMMENT_API = `${BASE_API}/comment`;
 const TWEETS_API = `${BASE_API}/tweets`;
 const EXPLORE = `${BASE_API}/search`;
+const BOOKMARK_API = `${BASE_API}/bookmark`;
 
 const APIS = {
   SIGN_IN: `${USER_API}/signin`,
@@ -35,6 +41,10 @@ const APIS = {
   GET_TWEETS_WITH_MEDIA_BY_USER_ID: (userId: number) => `${TWEETS_API}/media/${userId}`,
   GET_TWEETS_WITH_LIKES_BY_USER_ID: (userId: number) => `${TWEETS_API}/likes/${userId}`,
   EXPLORE,
+  GET_ALL_SAVED_TWEETS: `${BOOKMARK_API}`,
+  GET_SAVED_TWEETS_WITH_REPLIES: `${BOOKMARK_API}/with_replies`,
+  GET_SAVED_TWEETS_WITH_MEDIA: `${BOOKMARK_API}/media`,
+  GET_SAVED_TWEETS_WITH_LIKES: `${BOOKMARK_API}/likes`,
 };
 
 const TWITLER_TOKEN_KEY = "twitler_access_token";
