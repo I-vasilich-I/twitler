@@ -9,6 +9,7 @@ import { ROUTES } from "../constants.js";
 import commentController from "../comment/comment.controller.js";
 import followController from "../follow/follow.controller.js";
 import exploreController from "../explore/explore.controller.js";
+import bookmarkController from "../bookmark/bookmark.controller.js";
 
 const storage = multer.diskStorage({
   destination: 'public/',
@@ -48,6 +49,10 @@ const {
   FOLLOW,
   EXPLORE,
   EXPLORE_QUERY,
+  GET_ALL_SAVED_TWEETS,
+  GET_SAVED_TWEETS_WITH_REPLIES,
+  GET_SAVED_TWEETS_WITH_MEDIA,
+  GET_SAVED_TWEETS_WITH_LIKES,
 } = ROUTES;
 
 const router = new Router();
@@ -115,6 +120,13 @@ router.put(FOLLOW, authMidleware, followController.follow)
 //----EXPLORE ENDPOINTS------------------------------------------------
 router.get(EXPLORE, authMidleware, exploreController.getbyQueryAndFilter)
 router.get(EXPLORE_QUERY, authMidleware, exploreController.getbyQueryAndFilter)
+//---------------------------------------------------------------------
+
+//----BOOKMARK ENDPOINTS-----------------------------------------------
+router.get(GET_ALL_SAVED_TWEETS, authMidleware, bookmarkController.getAllTweets)
+router.get(GET_SAVED_TWEETS_WITH_LIKES, authMidleware, bookmarkController.getTweetsWithLikes)
+router.get(GET_SAVED_TWEETS_WITH_MEDIA, authMidleware, bookmarkController.getTweetsWithMedia)
+router.get(GET_SAVED_TWEETS_WITH_REPLIES, authMidleware, bookmarkController.getTweetsWithReplies)
 //---------------------------------------------------------------------
 
 export { router };
