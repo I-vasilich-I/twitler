@@ -13,7 +13,19 @@ import {
 } from "../../../types";
 import { resetUser, setUser } from "../user/userSlice";
 
-const { REFRESH, LOGOUT, COMMENT, REACT_ON_TWEET, CREATE_TWEET, GET_USER } = APIS;
+const {
+  REFRESH,
+  LOGOUT,
+  COMMENT,
+  REACT_ON_TWEET,
+  CREATE_TWEET,
+  GET_USER,
+  UPDATE_PASSWORD,
+  DELETE_USER,
+  UPDATE_AVATAR,
+  UPDATE_INFO,
+  REMOVE_AVATAR,
+} = APIS;
 
 type AuthArgs = {
   data: IAuthData;
@@ -50,7 +62,7 @@ export const apiSlice = createApi({
         body: data,
         credentials: "include",
       }),
-      invalidatesTags: ["Tweets", "Comments"],
+      invalidatesTags: ["Tweets", "Comments", "User"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
@@ -87,7 +99,7 @@ export const apiSlice = createApi({
         method: "POST",
         credentials: "include",
       }),
-      invalidatesTags: ["Comments", "Tweets"],
+      invalidatesTags: ["Comments", "Tweets", "User"],
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
@@ -237,6 +249,87 @@ export const apiSlice = createApi({
       }),
       providesTags: ["User"],
     }),
+    updatePassword: builder.mutation({
+      query: (data) => ({
+        url: UPDATE_PASSWORD,
+        method: "PATCH",
+        body: data,
+        credentials: "include",
+      }),
+    }),
+    deleteUser: builder.mutation({
+      query: () => ({
+        url: DELETE_USER,
+        method: "DELETE",
+        credentials: "include",
+      }),
+      invalidatesTags: ["Comments", "Tweets", "User"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          localStorage.removeItem(TWITLER_TOKEN_KEY);
+          dispatch(resetUser());
+        } catch (error) {
+          //
+        }
+      },
+    }),
+    updateAvatar: builder.mutation({
+      query: (data) => ({
+        url: UPDATE_AVATAR,
+        method: "PATCH",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["Comments", "Tweets", "User"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data) {
+            dispatch(setUser(data));
+          }
+        } catch (error) {
+          //
+        }
+      },
+    }),
+    removeAvatar: builder.mutation({
+      query: () => ({
+        url: REMOVE_AVATAR,
+        method: "PATCH",
+        credentials: "include",
+      }),
+      invalidatesTags: ["Comments", "Tweets", "User"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data) {
+            dispatch(setUser(data));
+          }
+        } catch (error) {
+          //
+        }
+      },
+    }),
+    updateInfo: builder.mutation({
+      query: (data) => ({
+        url: UPDATE_INFO,
+        method: "PATCH",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ["Comments", "Tweets", "User"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          if (data) {
+            dispatch(setUser(data));
+          }
+        } catch (error) {
+          //
+        }
+      },
+    }),
   }),
 });
 
@@ -255,4 +348,9 @@ export const {
   useFollowMutation,
   useGetFollowDataQuery,
   useGetPeopleQuery,
+  useUpdatePasswordMutation,
+  useDeleteUserMutation,
+  useUpdateAvatarMutation,
+  useUpdateInfoMutation,
+  useRemoveAvatarMutation,
 } = apiSlice;

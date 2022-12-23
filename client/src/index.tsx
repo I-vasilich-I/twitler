@@ -16,6 +16,7 @@ import { PATHS } from "./constants";
 import Profile from "./pages/Profile";
 import { getTweetsPath } from "./helpers";
 import "./index.scss";
+import Settings from "./pages/Settings";
 
 const {
   ROOT,
@@ -24,6 +25,9 @@ const {
   SIGN_UP,
   HOME,
   SETTINGS,
+  UPDATE_INFO,
+  UPDATE_AVATAR,
+  UPDATE_PASSWORD,
   UNKNOWN,
   PROFILE,
   PROFILE_TWEETS,
@@ -63,7 +67,11 @@ const App = () => {
             <Route path={getTweetsPath(PROFILE_TWEETS_WITH_MEDIA, ":userId")} element={<Profile />} />
             <Route path={getTweetsPath(PROFILE_TWEETS_WITH_LIKES, ":userId")} element={<Profile />} />
           </Route>
-          <Route path={SETTINGS} element={<div>Settings</div>} />
+          <Route path={SETTINGS} element={<Settings />}>
+            <Route path={UPDATE_INFO} element={<Settings />} />
+            <Route path={UPDATE_AVATAR} element={<Settings />} />
+            <Route path={UPDATE_PASSWORD} element={<Settings />} />
+          </Route>
           <Route path={BOOKMARKS} element={<Navigate to={BOOKMARKS_TWEETS} replace />} />
           <Route path={PROFILE} element={<Navigate to={PROFILE_TWEETS} replace />} />
         </Route>
