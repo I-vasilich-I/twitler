@@ -34,6 +34,11 @@ const ROUTES = {
   // EXPLORE
   EXPLORE: '/search',
   EXPLORE_QUERY: '/search/:query',
+  // BOOKMARK
+  GET_ALL_SAVED_TWEETS: '/bookmark',
+  GET_SAVED_TWEETS_WITH_REPLIES: '/bookmark/with_replies',
+  GET_SAVED_TWEETS_WITH_MEDIA: '/bookmark/media',
+  GET_SAVED_TWEETS_WITH_LIKES: '/bookmark/likes',
 }
 
 export { ROUTES, MAX_AGE_REFRESH_TOKEN_COOKIE, BASE_URL }
