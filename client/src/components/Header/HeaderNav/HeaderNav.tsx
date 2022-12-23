@@ -13,7 +13,7 @@ const items: MenuProps["items"] = [
     key: "explore",
   },
   {
-    label: <Link to={PATHS.BOOKMARKS}>Bookmarks</Link>,
+    label: <Link to={PATHS.BOOKMARKS_TWEETS}>Bookmarks</Link>,
     key: "bookmarks",
   },
 ];
