@@ -15,6 +15,9 @@ const PATHS = {
   BOOKMARKS_TWEETS_WITH_MEDIA: "/bookmarks/tweets/with-media",
   BOOKMARKS_TWEETS_WITH_LIKES: "/bookmarks/tweets/with-likes",
   SETTINGS: "/settings",
+  UPDATE_INFO: "/settings/update-info",
+  UPDATE_AVATAR: "/settings/update-avatar",
+  UPDATE_PASSWORD: "/settings/update-password",
   UNKNOWN: "*",
 };
 
@@ -31,6 +34,11 @@ const APIS = {
   SIGN_UP: `${USER_API}/signup`,
   REFRESH: `${USER_API}/refresh`,
   LOGOUT: `${USER_API}/logout`,
+  UPDATE_PASSWORD: `${USER_API}/password`,
+  UPDATE_INFO: `${USER_API}`,
+  UPDATE_AVATAR: `${USER_API}/avatar`,
+  REMOVE_AVATAR: `${USER_API}/remove-avatar`,
+  DELETE_USER: `${USER_API}`,
   GET_USER: (userId: number) => `${USER_API}/${userId}`,
   COMMENT: `${COMMENT_API}`,
   FOLLOWING_TWEETS: `${BASE_API}/following-tweets`,
@@ -54,17 +62,47 @@ const ERROR_MESSAGES = {
   INVALID_EMAIL: "The input is not valid E-mail!",
   EMAIL_REQUIRED: "Please input your E-mail!",
   PASSWORD_REQUIRED: "Please input your password!",
+  NEW_PASSWORD_REQUIRED: "Please input new password!",
   USERNAME_REQUIRED: "Please input your username!",
   CONFIRM_PASSWORD: "Please confirm your password!",
+  CONFIRM_NEW_PASSWORD: "Please confirm new password!",
   PASSWORDS_NOT_MATCH: "The two passwords that you entered do not match!",
   EMPTY_COMMENT: "You can't send an empty comment",
+  SHORT_PASSWORD: (letters: number) => `Password is less than ${letters} characters`,
+  NO_CHANGES: "You haven't changed anything",
+};
+
+const SUCCESS_MESSAGES = {
+  PASSWORD_UPDATED: "Password was successfully updated",
+  ACCOUNT_DELETED: "Account was successfully deleted",
+  AVATAR_REMOVED: "Avatar was successfully removed",
+  INFO_UPDATED: "Account info was successfully updated",
+};
+
+const INFO_MESSAGES = {
+  DELETE_ACCOUNT_ABORT: "Account deletion was aborted",
+  REMOVE_AVATAR_ABORT: "Avatar removal was aborted",
 };
 
 const PLACEHOLDERS = {
   USERNAME: "Username",
   EMAIL: "Email",
+  CURRENT_PASSWORD: "Current password",
+  NEW_PASSWORD: "New password",
+  CONFIRM_NEW_PASSWORD: "Confirm new password",
   PASSWORD: "Password",
   CONFIRM_PASSWORD: "Confirm password",
+  BIO: "Bio...",
 };
 
-export { PATHS, SERVER_URL, BASE_API, APIS, TWITLER_TOKEN_KEY, ERROR_MESSAGES, PLACEHOLDERS };
+export {
+  PATHS,
+  SERVER_URL,
+  BASE_API,
+  APIS,
+  TWITLER_TOKEN_KEY,
+  ERROR_MESSAGES,
+  PLACEHOLDERS,
+  SUCCESS_MESSAGES,
+  INFO_MESSAGES,
+};
