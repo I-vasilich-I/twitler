@@ -30,7 +30,9 @@ const {
   REFRESH,
   GET_USER,
   UPDATE_INFO,
+  UPDATE_AVATAR,
   UPDATE_PASSWORD,
+  REMOVE_AVATAR,
   DELETE_USER,
   CREATE_TWEET,
   DELETE_TWEET,
@@ -75,21 +77,22 @@ router.post(LOG_OUT, authMidleware, userController.logOut);
 router.get(ACTIVATE, userController.activate);
 router.get(REFRESH, userController.refresh);
 router.get(GET_USER, authMidleware, userController.getById)
-router.put(
+router.patch(
   UPDATE_INFO,
   authMidleware,
-  upload.single('avatar'),
-  check('email').isEmail().optional({ checkFalsy: true }),
+  check('email').isEmail().optional(),
   check('userName').notEmpty().optional(),
   userController.updateInfo
-  );
-router.put(
+);
+router.patch(UPDATE_AVATAR, authMidleware, upload.single('avatar'), userController.updateAvatar)
+router.patch(REMOVE_AVATAR, authMidleware, userController.removeAvatar)
+router.patch(
   UPDATE_PASSWORD, 
   authMidleware, 
   body('oldPassword').isLength({ min: 8 }),
   body('newPassword').isLength({ min: 8 }),
   userController.updatePassword
-  )
+)
 router.delete(DELETE_USER, authMidleware, userController.delete);
 //---------------------------------------------------------------------
 

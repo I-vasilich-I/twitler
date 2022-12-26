@@ -118,14 +118,14 @@ class UserService {
     return { ...responseUser, _count, amIFollowing: Boolean(followers.length) };
   }
 
-  async updateInfo(data, id, avatarData) {
-    if (!data && !avatarData) {
+  async updateInfo(data, id) {
+    if (!data) {
       throw new BadRequestException();
     }
-    let oldAvatar;
 
     const { userName, email, bio } = data;
-    const newData = {};
+    const newData = { bio };
+  
     if (userName) {
       newData.username = userName;
     }
@@ -134,17 +134,49 @@ class UserService {
       newData.email = email;
     }
 
-    if (bio) {
-      newData.bio = bio;
-    }
-    
-    if (avatarData.path) {
-      const user = await prisma.user.findUnique({ where: { id }});
-      oldAvatar = user.avatar;
-      newData.avatar = avatarData.path;
+    const userData = await prisma.user.update({ where: { id }, data: newData });
+
+    if (!userData) {
+      throw new BadRequestException(`User with id: ${id} doesn't exist`);
     }
 
-    const userData = await prisma.user.update({ where: { id }, data: newData });
+    return new UserDto(userData);
+  }
+
+  async updateAvatar(id, avatarData) {
+    if (!avatarData?.path ) {
+      throw new BadRequestException();
+    }
+
+    const user = await prisma.user.findUnique({ where: { id }});
+
+    if (!user) {
+      throw new BadRequestException(`User with id: ${id} doesn't exist`);
+    }
+
+    const oldAvatar = user.avatar;
+    const avatar = avatarData.path;
+
+    const userData = await prisma.user.update({ where: { id }, data: { avatar } });
+
+    if (oldAvatar) {
+      await deleteFile(oldAvatar);
+    }
+
+    return new UserDto(userData);
+  }
+
+  async removeAvatar(id) {
+    const user = await prisma.user.findUnique({ where: { id }});
+
+    if (!user) {
+      throw new BadRequestException(`User with id: ${id} doesn't exist`);
+    }
+
+    const oldAvatar = user.avatar;
+    const avatar = null;
+
+    const userData = await prisma.user.update({ where: { id }, data: { avatar } });
 
     if (oldAvatar) {
       await deleteFile(oldAvatar);

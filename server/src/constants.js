@@ -11,7 +11,9 @@ const ROUTES = {
   REFRESH: '/user/refresh',
   GET_USER: '/user/:id',
   UPDATE_INFO: '/user',
+  UPDATE_AVATAR: '/user/avatar',
   UPDATE_PASSWORD: '/user/password',
+  REMOVE_AVATAR: '/user/remove-avatar',
   DELETE_USER: '/user',
   // TWEET
   CREATE_TWEET: '/tweets',
