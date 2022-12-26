@@ -85,8 +85,27 @@ class UserController {
     }
 
     try {
-      const { body, user, file } = req;
-      const userData = await userService.updateInfo(body, user.id, file)
+      const { body, user } = req;
+      const userData = await userService.updateInfo(body, user.id)
+      return res.json(userData);
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async updateAvatar(req, res, next) {
+    try {
+      const { user, file } = req;
+      const userData = await userService.updateAvatar(user.id, file)
+      return res.json(userData);
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async removeAvatar(req, res, next) {
+    try {
+      const userData = await userService.removeAvatar(req.user.id)
       return res.json(userData);
     } catch (error) {
       next(error)
