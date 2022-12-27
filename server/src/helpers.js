@@ -1,32 +1,35 @@
 import { unlink } from 'fs/promises';
+import { BASE_URL } from './constants.js';
 
 const deleteFile = async (path) => {
   try {
     await unlink(path);
-  } catch {}
-}
+  } catch {
+    //
+  }
+};
 
 const getTweetsIncludeOptions = (userId) => ({
   retweets: {
     where: {
-      userId
-    }
+      userId,
+    },
   },
   tweetLikes: {
     where: {
-      userId
-    }
+      userId,
+    },
   },
   bookmarks: {
     where: {
-      userId
-    }
+      userId,
+    },
   },
   User: {
     select: {
       avatar: true,
       username: true,
-    }
+    },
   },
   _count: {
     select: {
@@ -34,25 +37,29 @@ const getTweetsIncludeOptions = (userId) => ({
       tweetLikes: true,
       bookmarks: true,
       comments: true,
-    }
-  }
-})
+    },
+  },
+});
 
 const getFollowSelectOptions = (userId) => ({
   username: true,
   id: true,
-  bio: true, 
+  bio: true,
   avatar: true,
   _count: {
     select: {
       followers: true,
-    }
+    },
   },
-  followers: { 
+  followers: {
     where: {
-      followerUserId: userId
-    }
-  }
-})
+      followerUserId: userId,
+    },
+  },
+});
 
-export { deleteFile, getTweetsIncludeOptions, getFollowSelectOptions }
+const getActivationLink = (code) => `${BASE_URL}/user/activate/${code}`;
+
+export {
+  deleteFile, getTweetsIncludeOptions, getFollowSelectOptions, getActivationLink,
+};

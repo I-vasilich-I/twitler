@@ -1,28 +1,16 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { body, check } from 'express-validator';
-import multer from 'multer';
-import mime from 'mime-types';
-import authMidleware from "../midlewares/auth.midleware.js";
-import userController from "../user/user.controller.js";
-import tweetController from '../tweet/tweet.controller.js';
-import { ROUTES } from "../constants.js";
-import commentController from "../comment/comment.controller.js";
-import followController from "../follow/follow.controller.js";
-import exploreController from "../explore/explore.controller.js";
-import bookmarkController from "../bookmark/bookmark.controller.js";
+import { ROUTES } from '../constants.js';
+import authMidleware from '../midlewares/auth.midleware.js';
+import uploadMidleware from '../midlewares/upload.midleware.js';
+import userController from '../modules/user/user.controller.js';
+import tweetController from '../modules/tweet/tweet.controller.js';
+import commentController from '../modules/comment/comment.controller.js';
+import followController from '../modules/follow/follow.controller.js';
+import exploreController from '../modules/explore/explore.controller.js';
+import bookmarkController from '../modules/bookmark/bookmark.controller.js';
 
-const storage = multer.diskStorage({
-  destination: 'public/',
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    const ext = mime.extension(file.mimetype);
-    cb(null, `${file.fieldname}-${uniqueSuffix}.${ext}`);
-  }
-})
-const upload = multer({ storage })
-
-const { 
-  BASE,
+const {
   SIGN_UP,
   SIGN_IN,
   LOG_OUT,
@@ -59,77 +47,81 @@ const {
 
 const router = new Router();
 
-//----USER ENDPOINTS---------------------------------------------------
+// ----USER ENDPOINTS---------------------------------------------------
 router.post(
   SIGN_UP,
   body('username').notEmpty(),
   body('email').isEmail(),
   body('password').isLength({ min: 8 }),
-  userController.signUp
-  );
+  userController.signUp,
+);
 router.post(
   SIGN_IN,
   body('email').isEmail(),
   body('password').isLength({ min: 8 }),
-  userController.signIn
-  );
+  userController.signIn,
+);
 router.post(LOG_OUT, authMidleware, userController.logOut);
 router.get(ACTIVATE, userController.activate);
 router.get(REFRESH, userController.refresh);
-router.get(GET_USER, authMidleware, userController.getById)
+router.get(GET_USER, authMidleware, userController.getById);
 router.patch(
   UPDATE_INFO,
   authMidleware,
   check('email').isEmail().optional(),
   check('userName').notEmpty().optional(),
-  userController.updateInfo
+  userController.updateInfo,
 );
-router.patch(UPDATE_AVATAR, authMidleware, upload.single('avatar'), userController.updateAvatar)
-router.patch(REMOVE_AVATAR, authMidleware, userController.removeAvatar)
+router.patch(UPDATE_AVATAR, authMidleware, uploadMidleware.single('avatar'), userController.updateAvatar);
+router.patch(REMOVE_AVATAR, authMidleware, userController.removeAvatar);
 router.patch(
-  UPDATE_PASSWORD, 
-  authMidleware, 
+  UPDATE_PASSWORD,
+  authMidleware,
   body('oldPassword').isLength({ min: 8 }),
   body('newPassword').isLength({ min: 8 }),
-  userController.updatePassword
-)
+  userController.updatePassword,
+);
 router.delete(DELETE_USER, authMidleware, userController.delete);
 //---------------------------------------------------------------------
 
-//----TWEETS ENDPOINTS-------------------------------------------------
-router.post(CREATE_TWEET, authMidleware, upload.single('image'), tweetController.create);
+// ----TWEETS ENDPOINTS-------------------------------------------------
+router.post(CREATE_TWEET, authMidleware, uploadMidleware.single('image'), tweetController.create);
 router.delete(DELETE_TWEET, authMidleware, tweetController.delete);
 router.put(REACT_ON_TWEET, authMidleware, tweetController.react);
 router.get(GET_TWEETS_BY_USER, authMidleware, tweetController.getAllByUserId);
-router.get(GET_TWEETS_WITH_LIKES_BY_USER, authMidleware, tweetController.getAllWithLikesByUserId)
-router.get(GET_TWEETS_WITH_MEDIA_BY_USER, authMidleware, tweetController.getAllWithMediaByUserId)
-router.get(GET_TWEETS_WITH_REPLIES_BY_USER, authMidleware, tweetController.getAllWithRepliesByUserId)
-router.get(GET_FOLLOWING_TWEETS, authMidleware, tweetController.getAllFollowingTweets)
+router.get(GET_TWEETS_WITH_LIKES_BY_USER, authMidleware, tweetController.getAllWithLikesByUserId);
+router.get(GET_TWEETS_WITH_MEDIA_BY_USER, authMidleware, tweetController.getAllWithMediaByUserId);
+router.get(
+  GET_TWEETS_WITH_REPLIES_BY_USER,
+  authMidleware,
+  tweetController.getAllWithRepliesByUserId,
+);
+router.get(GET_FOLLOWING_TWEETS, authMidleware, tweetController.getAllFollowingTweets);
 //---------------------------------------------------------------------
 
-//----COMMENTS ENDPOINTS-----------------------------------------------
-router.get(GET_ALL_COMMENTS, authMidleware, commentController.getAll)
-router.post(CREATE_COMMENT, authMidleware, upload.single('image'), commentController.create)
-router.put(LIKE_COMMENT, authMidleware, commentController.like)
-router.delete(DELETE_COMMENT, authMidleware, commentController.delete)
+// ----COMMENTS ENDPOINTS-----------------------------------------------
+router.get(GET_ALL_COMMENTS, authMidleware, commentController.getAll);
+router.post(CREATE_COMMENT, authMidleware, uploadMidleware.single('image'), commentController.create);
+router.put(LIKE_COMMENT, authMidleware, commentController.like);
+router.delete(DELETE_COMMENT, authMidleware, commentController.delete);
 //---------------------------------------------------------------------
 
-//----FOLLOW ENDPOINTS-------------------------------------------------
-router.get(GET_ALL_FOLLOWERS, authMidleware, followController.getAllFollowers)
-router.get(GET_ALL_FOLLOWING, authMidleware, followController.getAllFollowing)
-router.put(FOLLOW, authMidleware, followController.follow)
+// ----FOLLOW ENDPOINTS-------------------------------------------------
+router.get(GET_ALL_FOLLOWERS, authMidleware, followController.getAllFollowers);
+router.get(GET_ALL_FOLLOWING, authMidleware, followController.getAllFollowing);
+router.put(FOLLOW, authMidleware, followController.follow);
 //---------------------------------------------------------------------
 
-//----EXPLORE ENDPOINTS------------------------------------------------
-router.get(EXPLORE, authMidleware, exploreController.getbyQueryAndFilter)
-router.get(EXPLORE_QUERY, authMidleware, exploreController.getbyQueryAndFilter)
+// ----EXPLORE ENDPOINTS------------------------------------------------
+router.get(EXPLORE, authMidleware, exploreController.getbyQueryAndFilter);
+router.get(EXPLORE_QUERY, authMidleware, exploreController.getbyQueryAndFilter);
 //---------------------------------------------------------------------
 
-//----BOOKMARK ENDPOINTS-----------------------------------------------
-router.get(GET_ALL_SAVED_TWEETS, authMidleware, bookmarkController.getAllTweets)
-router.get(GET_SAVED_TWEETS_WITH_LIKES, authMidleware, bookmarkController.getTweetsWithLikes)
-router.get(GET_SAVED_TWEETS_WITH_MEDIA, authMidleware, bookmarkController.getTweetsWithMedia)
-router.get(GET_SAVED_TWEETS_WITH_REPLIES, authMidleware, bookmarkController.getTweetsWithReplies)
+// ----BOOKMARK ENDPOINTS-----------------------------------------------
+router.get(GET_ALL_SAVED_TWEETS, authMidleware, bookmarkController.getAllTweets);
+router.get(GET_SAVED_TWEETS_WITH_LIKES, authMidleware, bookmarkController.getTweetsWithLikes);
+router.get(GET_SAVED_TWEETS_WITH_MEDIA, authMidleware, bookmarkController.getTweetsWithMedia);
+router.get(GET_SAVED_TWEETS_WITH_REPLIES, authMidleware, bookmarkController.getTweetsWithReplies);
 //---------------------------------------------------------------------
 
-export { router };
+export default router;

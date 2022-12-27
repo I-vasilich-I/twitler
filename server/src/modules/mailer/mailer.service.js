@@ -9,8 +9,8 @@ class MailerService {
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASSWORD,
-      }
-    })
+      },
+    });
   }
 
   async sendActivationMail(to, name, link) {
@@ -19,21 +19,22 @@ class MailerService {
       await this.transporter.sendMail({
         from: process.env.MAIL_FROM,
         to,
-        subject: `Acaunt activation on Twitler`,
+        subject: 'Acaunt activation on Twitler',
         text: '',
-        html: 
+        html:
           `
-          <p>Hey ${ name },</p>
+          <p>Hey ${name},</p>
           <p>Please click below to activate your account</p>
           <p>
-              <a href="${ link }">Activate</a>
+              <a href="${link}">Activate</a>
           </p>
           
           <p>If you did not request this email you can safely ignore it.</p>       
-          `
-      })
+          `,
+      });
     } catch (error) {
-      console.log(error)
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   }
 }
