@@ -105,6 +105,14 @@ const TOKEN_TYPES = {
   REFRESH: 'refresh',
 };
 
+const LOGS_DIR_PATH = 'logs/';
+
+const LOG_LEVELS = {
+  INFO: 'info',
+  WARN: 'warn',
+  ERROR: 'error',
+};
+
 export {
   ROUTES,
   MAX_AGE_REFRESH_TOKEN_COOKIE,
@@ -117,4 +125,6 @@ export {
   FOLLOW_TYPES,
   EXPLORE_FILTERS,
   TOKEN_TYPES,
+  LOGS_DIR_PATH,
+  LOG_LEVELS,
 };
