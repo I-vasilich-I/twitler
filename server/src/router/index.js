@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { body, check } from 'express-validator';
 import { ROUTES } from '../constants.js';
-import authMidleware from '../midlewares/auth.midleware.js';
-import uploadMidleware from '../midlewares/upload.midleware.js';
+import authMidleware from '../middlewares/auth.middleware.js';
+import uploadMidleware from '../middlewares/upload.middleware.js';
 import userController from '../modules/user/user.controller.js';
 import tweetController from '../modules/tweet/tweet.controller.js';
 import commentController from '../modules/comment/comment.controller.js';

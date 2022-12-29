@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { logger } from '../../logger/index.js';
 
 class MailerService {
   constructor() {
@@ -33,8 +34,7 @@ class MailerService {
           `,
       });
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(error);
+      logger.error(error);
     }
   }
 }

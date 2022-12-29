@@ -51,7 +51,6 @@ const FOLLOW_TYPES = {
 const ERROR_MESSAGES = {
   VALIDATION_ERROR: 'Validation error',
   USER_WITH_EMAIL_EXIST: (email) => `User with email: ${email} already exist`,
-  USER_WITH_ID_DOES_NOT_EXIST: (id) => `User with id: ${id} doesn't exist`,
   WRONG_CREDS: 'Wrong credentials',
   NO_DATA_PASSED: 'No data was passed',
   ENTITY_WITH_ID_DOES_NOT_EXIST: (entity, id) => `${entity} with id: ${id} doesn't exist`,
@@ -63,6 +62,7 @@ const ERROR_MESSAGES = {
   UNAUTHORIZED: 'User unauthorized',
   NOT_FOUND: 'Not found',
   CONFLICT: 'Conflict',
+  INTERNAL_SERVER_ERROR: 'Internal server error',
 };
 
 const COOKIES = {
@@ -77,6 +77,7 @@ const STATUS_CODES = {
   UNAUTHORIZED: 401,
   NOT_FOUND: 404,
   CONFILCT: 409,
+  INTERNAL_SERVER_ERROR: 500,
 };
 
 const BOOLEAN_REQ_PARAMS = {

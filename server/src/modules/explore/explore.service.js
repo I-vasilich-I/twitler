@@ -17,6 +17,7 @@ class ExploreService {
     };
 
     if (!query) {
+      options.where = {};
       const data = await prisma.tweet.findMany(options);
 
       return data;
