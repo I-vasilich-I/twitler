@@ -38,5 +38,5 @@ class UnauthorizedRequestException extends ApiError {
 }
 
 export {
-  BadRequestException, UnauthorizedRequestException, NotFoundException, ConflictException,
+  BadRequestException, UnauthorizedRequestException, NotFoundException, ConflictException, ApiError,
 };
