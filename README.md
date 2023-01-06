@@ -1,92 +1,140 @@
-# Aqua Playground
-
-
-
-## Getting started
-
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://git.syberry.com/o.vaskevich/aqua-playground.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.syberry.com/o.vaskevich/aqua-playground/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
+# Aqua Playground - Twitler
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+Aqua Playground is a fullstack project. In my case it's a shallow and simplified copy of the [Twitter](https://twitter.com/) named `Twitler`.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+[Video demo](https://syberrycorp-my.sharepoint.com/personal/o_vaskevich_syberry_com/_layouts/15/guestaccess.aspx?share=EfXlyFG3ozRFpb61XAJ4TpUBkmnCJ_TNnjUjlEdAsrBDzQ&email=o.vaskevich%40syberry.com)
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+For frontend I heavily used `Ant Design` on `create react app` template, which made it painfully to adjust styles(styled-jsx and cra not a good combo).  
+State management and API request are handled by `Redux Toolkit` and `RTK Query`, which includes caching, so sometimes there's no request to backend are made cause data is in the cache.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+For backend I used `JavaScript`, `Express`, `MySQL` and `Prisma` ORM. I chose `Prisma` because I haven't used it before, so I'd learn it in the process. I requested to use `Nest/TypeScript`, but was told to use `Express`. File structure somewhat influenced by `Nest` and taking in account that `Express` doesn't care much about structure I guess it's ok.  
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## Stack
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+|Component|Technologies|
+|---|:---|
+|Programming languages| JavaScript / TypeScript
+|Database|Mysql|
+|API| Postman|
+|Backend| Express / Prisma|
+|Frontend|React / Redux Toolkit / RTK Query / Ant Design / Sass|
+|Container tool| Docker|
+|Testing|Jest|
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## Documents
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+- [FR](/FR.md)
+- [TD](/Twitler_Technical_Design.md)
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## How to run the project
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Clone repository
 
-## License
-For open source projects, say how it is licensed.
+```bash
+git clone https://git.syberry.com/o.vaskevich/aqua-playground.git
+```
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Go to `aqua-playground` folder
+
+```bash
+cd ./aqua-playground
+```
+
+Switch to `development` branch
+
+```bash
+git checkout development
+```
+
+### Backend [BE]
+
+Go to `server` folder
+
+```bash
+cd ./server
+```
+
+#### [BE] Installation
+
+```bash
+npm install
+```
+
+Change file name and adjust variables if needed
+
+```string
+.env.example -> .env
+```
+
+#### [BE] Running server
+
+- run containers(requires [Docker](https://www.docker.com/))
+
+  ```bash
+  npm run docker
+  ```
+
+- open another terminal window and run prisma migration
+
+  ```bash
+  npm run prisma:migrate
+  ```
+
+#### [BE] Direct database manipulations
+
+- start and open prisma studio on <http://localhost:5555>
+
+  ```bash
+  npm run prisma:studio
+  ```
+
+#### [BE] Unit tests
+
+- run all tests
+
+  ```bash
+  npm run test
+  ```
+
+- run all tests in watch mode
+
+  ```bash
+  npm run test:watch
+  ```
+
+- run tests coverage
+
+  ```bash
+  npm run test:cov
+  ```
+
+### Frontend [FE]
+
+Go to `client` folder
+
+```bash
+cd ../client
+```
+
+#### [FE] Installation
+
+```bash
+npm install
+```
+
+#### [FE] Running client
+
+  ```bash
+  npm run start
+  ```
+
+## Known issues
+
+- New tweet form allows you to select who can reply to the tweet(everyone/people you follow), so this data is indeed stored in DB, but on the FE it isn't used anywhere at the moment.
+- On `sign up` server attempts to send an activation email and stores link in DB, but on the FE it isn't used anywhere at the moment. If there's some troubles with sending email, it'll be logged, and sign up process will continue. As a matter of fact that's the reason why sign up takes a few more seconds to proceed than signin.
+- Pagination on Tweets and Comments. As soon as the app has more tweets and comments(like 100+), it'll became more and more laggy. Would be nice to load tweets and comments partially, based on what user can see on the screen and add pagination options to requests on BE.
+- FE doesn't allow user to edit/delete tweets/comments, though BE has those endpoints.
+- I haven't paid much attention to responsiveness, `Ant Design` handles it up to some point, but there most likely are some edge cases where view would brake. Overall app looks fine on `width > 600px`
+- No unit tests for FE
