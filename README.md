@@ -1,15 +1,15 @@
-# Aqua Playground - Twitler
+# Twitler
 
 ## Description
 
-Aqua Playground is a fullstack project. In my case it's a shallow and simplified copy of the [Twitter](https://twitter.com/) named `Twitler`.
+Twitler is a fullstack project, that I did as a part of NodeJS development internship at Syberry. It's a shallow and simplified copy of the [Twitter](https://twitter.com/) named `Twitler`.
 
-[Video demo](https://syberrycorp-my.sharepoint.com/personal/o_vaskevich_syberry_com/_layouts/15/guestaccess.aspx?share=EfXlyFG3ozRFpb61XAJ4TpUBkmnCJ_TNnjUjlEdAsrBDzQ&email=o.vaskevich%40syberry.com)
+[Video demo](https://drive.google.com/file/d/1NIUBOU3KFlWBBCLTf0C0MPOUOkUSpQiD/view?usp=sharing)
 
 For frontend I heavily used `Ant Design` on `create react app` template, which made it painfully to adjust styles(styled-jsx and cra not a good combo).  
 State management and API request are handled by `Redux Toolkit` and `RTK Query`, which includes caching, so sometimes there's no request to backend are made cause data is in the cache.
 
-For backend I used `JavaScript`, `Express`, `MySQL` and `Prisma` ORM. I chose `Prisma` because I haven't used it before, so I'd learn it in the process. I requested to use `Nest/TypeScript`, but was told to use `Express`. File structure somewhat influenced by `Nest` and taking in account that `Express` doesn't care much about structure I guess it's ok.  
+For backend I used `JavaScript`, `Express`, `MySQL` and `Prisma` ORM. I chose `Prisma` because I haven't used it before, so I'd learn it in the process. I'd prefer to use `Nest/TypeScript`, but was told to use `Express/JavaScript`. Though I've used file structure close to `Nest`
 
 ## Stack
 
@@ -33,19 +33,13 @@ For backend I used `JavaScript`, `Express`, `MySQL` and `Prisma` ORM. I chose `P
 Clone repository
 
 ```bash
-git clone https://git.syberry.com/o.vaskevich/aqua-playground.git
+git clone https://github.com/I-vasilich-I/twitler.git
 ```
 
-Go to `aqua-playground` folder
+Go to `twitler` folder
 
 ```bash
-cd ./aqua-playground
-```
-
-Switch to `development` branch
-
-```bash
-git checkout development
+cd ./twitler
 ```
 
 ### Backend [BE]
