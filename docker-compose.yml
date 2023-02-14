@@ -1,0 +1,67 @@
+services: 
+  node_client:
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile
+    container_name: twitler-client
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    restart: unless-stopped
+    networks:
+      - shared_network
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+
+  node_server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    container_name: twitler-server
+    restart: unless-stopped
+    networks:
+      - shared_network
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - mysql
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+
+  mysql:
+    build:
+      context: ./server
+      dockerfile: ./db/Dockerfile
+    container_name: twitler-mysql
+    restart: unless-stopped
+    networks:
+      - shared_network
+    ports:
+      - ${MYSQL_PORT}:${MYSQL_PORT}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DB=${MYSQL_DB}
+
+  adminer:
+    image: adminer
+    container_name: twitler-adminer
+    restart: unless-stopped
+    ports:
+      - ${ADMINER_HOST_PORT}:${ADMINER_PORT}
+    networks:
+      - shared_network
+    depends_on:
+      - mysql
+
+volumes:
+  node-mysql:
+  node-mysql-logs:
+
+networks:
+  shared_network:
+  
