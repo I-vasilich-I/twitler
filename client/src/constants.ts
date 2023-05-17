@@ -21,7 +21,7 @@ const PATHS = {
   UNKNOWN: "*",
 };
 
-const SERVER_URL = "http://localhost:4000";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL ?? "http://localhost:4000";
 const BASE_API = `${SERVER_URL}/api`;
 const USER_API = `${BASE_API}/user`;
 const COMMENT_API = `${BASE_API}/comment`;
