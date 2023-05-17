@@ -9,47 +9,34 @@ services:
       - shared_network
     ports:
       - ${PORT}:${PORT}
-    environment:
-      DATABASE_URL: mysql://root:${MYSQL_ROOT_PASSWORD}@mysql:${MYSQL_PORT}/mysql_db?schema=public&connect_timeout=300
     depends_on:
-      - mysql
+      - db
     volumes:
       - ./:/usr/src/app
       - /usr/src/app/node_modules
 
-  mysql:
+  db:
     build:
       context: .
       dockerfile: ./db/Dockerfile
-    container_name: twitler-mysql
+    container_name: twitler-db
+    command: -p ${DB_DEV_PORT}
     restart: unless-stopped
     networks:
       - shared_network
     ports:
-      - ${MYSQL_PORT}:${MYSQL_PORT}
+      - ${DB_DEV_PORT}:${DB_DEV_PORT}
     environment:
-      - MYSQL_DB=${MYSQL_DB}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    expose:
-      - ${MYSQL_PORT}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
     volumes:
-      - mysql-data:/var/lib/mysql
+      - db-data:/var/lib/postgresql/data
+      - db-logs:/var/log/postgresql/
 
-  # Turns out prisma has it's own studio to manage data in db, so I don't need adminer so far
-  # adminer:
-  #   image: adminer
-  #   container_name: twitler-adminer
-  #   restart: unless-stopped
-  #   ports:
-  #     - ${ADMINER_HOST_PORT}:${ADMINER_PORT}
-  #   networks:
-  #     - shared_network
-  #   depends_on:
-  #     - mysql
 volumes:
-  mysql-data:
+  db-data:
+  db-logs:
 
 networks:
   shared_network:
